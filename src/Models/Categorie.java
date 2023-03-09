@@ -1,4 +1,4 @@
-package Models;
+package models;
 
 public class Categorie {
     private int idCategorie;
@@ -14,9 +14,9 @@ public class Categorie {
 
     public Categorie()
     {
-        this.idCategorie=1;
-        this.nume="Romane";
-        this.nrCarti=1;
+        this.idCategorie=-1;
+        this.nume="Necunoscut";
+        this.nrCarti=0;
     }
 
     @Override

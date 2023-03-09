@@ -1,11 +1,10 @@
-package Models;
+package models;
 import java.time.LocalDate;
 
 public class Abonament extends Cititor {
     private int idAbonament;
     private String tipAbonament;
     private LocalDate dataCreare;
-
     private String status;
 
     public Abonament(int idAbonament, String tipAbonament, LocalDate dataCreare, String status)

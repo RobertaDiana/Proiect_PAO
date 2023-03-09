@@ -1,4 +1,4 @@
-package Models;
+package models;
 import java.time.LocalDate;
 
 public class Persoana {
@@ -56,6 +56,14 @@ public class Persoana {
 
     public void setGen(String gen) {
         this.gen = gen;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
