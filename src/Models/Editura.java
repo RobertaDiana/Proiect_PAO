@@ -1,4 +1,4 @@
-package Models;
+package models;
 public class Editura {
     private int idEditura;
     private String denumire;

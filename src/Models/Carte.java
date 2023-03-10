@@ -9,20 +9,18 @@ public class Carte {
     private List<Autor> autor;
     private List<Categorie> categorie;
     private int dataPublicarii;
-    private int cantitate;
     private Editura editura;
     private Boolean imprumut;
 
     
 
     public Carte(int idCarte, String title, List<Autor> autor, List<Categorie> categorie, int dataPublicarii,
-            int cantitate, Editura editura, Boolean imprumut) {
+                 Editura editura, Boolean imprumut) {
         this.idCarte = idCarte;
         this.title = title;
         this.autor = autor;
         this.categorie = categorie;
         this.dataPublicarii = dataPublicarii;
-        this.cantitate = cantitate;
         this.editura = editura;
         this.imprumut = imprumut;
     }
@@ -34,7 +32,6 @@ public class Carte {
         this.title = "Necunoscut";
         this.autor = null;
         this.dataPublicarii = LocalDate.now().getYear();
-        this.cantitate = 0;
         this.editura = null;
         this.imprumut = false;
         this.categorie = null;
@@ -65,31 +62,18 @@ public class Carte {
         this.dataPublicarii = dataPublicarii;
     }
 
-    public int getCantitate() {
-        return cantitate;
-    }
-
-    public void setCantitate(int cantitate) {
-        this.cantitate = cantitate;
-    }
-
     public List<Autor> getAutor() {
         return autor;
     }
-
 
 
     public void setAutor(List<Autor> autor) {
         this.autor = autor;
     }
 
-
-
     public List<Categorie> getCategorie() {
         return categorie;
     }
-
-
 
     public void setCategorie(List<Categorie> categorie) {
         this.categorie = categorie;
@@ -124,7 +108,9 @@ public class Carte {
     @Override
     public String toString() {
         return "Carte [idCarte=" + idCarte + ", title=" + title + ", autor=" + autor + ", categorie=" + categorie
-                + ", dataPublicarii=" + dataPublicarii + ", cantitate=" + cantitate + ", editura=" + editura
+                + ", dataPublicarii=" + dataPublicarii + ", editura=" + editura
                 + ", imprumut=" + imprumut + "]";
     }
 }
+
+

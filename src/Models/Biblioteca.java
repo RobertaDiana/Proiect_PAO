@@ -1,6 +1,7 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Biblioteca {
@@ -75,5 +76,8 @@ public class Biblioteca {
         this.carti.add(carte);
     }
 
+    public void SortCarti(){
+        Collections.sort(this.carti, new CarteComparator());
+    }
 
 }
