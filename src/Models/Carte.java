@@ -2,11 +2,12 @@
 package models;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 public class Carte {
     private int idCarte;
     private String title;
-    private List<Autor> autor;
+    private Set<Autor> autor;
     private List<Categorie> categorie;
     private int dataPublicarii;
     private Editura editura;
@@ -14,7 +15,7 @@ public class Carte {
 
     
 
-    public Carte(int idCarte, String title, List<Autor> autor, List<Categorie> categorie, int dataPublicarii,
+    public Carte(int idCarte, String title, Set<Autor> autor, List<Categorie> categorie, int dataPublicarii,
                  Editura editura, Boolean imprumut) {
         this.idCarte = idCarte;
         this.title = title;
@@ -62,31 +63,26 @@ public class Carte {
         this.dataPublicarii = dataPublicarii;
     }
 
-    public List<Autor> getAutor() {
-        return autor;
-    }
 
-
-    public void setAutor(List<Autor> autor) {
-        this.autor = autor;
-    }
 
     public List<Categorie> getCategorie() {
         return categorie;
     }
 
+
     public void setCategorie(List<Categorie> categorie) {
         this.categorie = categorie;
     }
 
-
-
+    public Set<Autor> setAutor(){
+        return autor;
+    }
+    public void setAutor( Set<Autor> autor){
+        this.autor=autor;
+    }
     public Editura getEditura() {
         return editura;
     }
-
-
-
     public void setEditura(Editura editura) {
         this.editura = editura;
     }
@@ -111,6 +107,9 @@ public class Carte {
                 + ", dataPublicarii=" + dataPublicarii + ", editura=" + editura
                 + ", imprumut=" + imprumut + "]";
     }
+
+
 }
+
 
 
