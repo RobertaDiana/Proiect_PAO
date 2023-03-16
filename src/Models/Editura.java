@@ -13,7 +13,7 @@ public class Editura {
     public Editura ()
     {
         this.idEditura=1;
-        this.denumire="Aramis";
+        this.denumire="Necunoscut";
     }
     @Override
     public String toString() {

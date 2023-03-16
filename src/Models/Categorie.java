@@ -22,7 +22,7 @@ public class Categorie {
     public String toString() {
         return "Categorie{" +
                 "idCategorie=" + idCategorie +
-                ", nume='" + nume +
+                ", nume=" + nume +
                 '}';
     }
 
