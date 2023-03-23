@@ -3,12 +3,11 @@ package controler;
 import models.*;
 
 
-import java.sql.SQLOutput;
+import java.sql.Array;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.*;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
+
 
 public class Controler {
     public static List<Carte> carti= new ArrayList<>();
@@ -18,7 +17,6 @@ public class Controler {
     public static List<Editura> edituri =new ArrayList<>();
     public static List<Abonament> abonamente = new ArrayList<>();
     public static List<Adresa> adrese = new ArrayList<>();
-
 
 
     public static void init(){
@@ -98,6 +96,23 @@ public class Controler {
         return new Categorie(-1,null);
     }
 
+    public static Carte FindByNameCarte(String denumire){
+        for(Carte c:carti){
+            if(c.getTitle().contentEquals(denumire))
+                return c;
+        }
+        return null;
+    }
+    public static Carte FindByNameCarteNeimprumutata(String denumire){
+        for(Carte c:carti){
+            if(c.getTitle().contentEquals(denumire) && c.getImprumut()==false)
+                return c;
+        }
+        return null;
+    }
+    public static Boolean existaUser(String username){
+        return !cititori.stream().filter(cit-> cit.getUserName().contentEquals(username) ).toList().isEmpty();
+    }
 
     public static void adaugaCategorie(){
 
@@ -123,6 +138,23 @@ public class Controler {
         System.out.println("Id-ul cititorului este: ");
         int idCititor = CitireInt("Id cititor");
 
+
+
+
+        System.out.println("Username: ");
+        String username=reader.nextLine();
+
+        while( existaUser(username) ){
+            System.out.println("Acest username deja exista: ");
+            System.out.println("Username: ");
+            username=reader.nextLine();
+        }
+
+
+
+        System.out.println("Parola: ");
+        String parola=reader.nextLine();
+
         System.out.println("Numele cititorului este: ");
         String cititorNume= reader.nextLine().toUpperCase();
 
@@ -139,38 +171,24 @@ public class Controler {
         System.out.println("Nr. carti citite: ");
         int nrCartiCitite=CitireInt("Nr. cati citite");
 
-        System.out.println("Adresa , veti introduce id-ul adresei: ");
-        afisareAdresa();
+        Adresa adresa=adaugaAdresa();
+        Abonament abonament=adaugaAbonament();
 
-        System.out.println("Id Adresa ");
-        int idAdresa = CitireInt("Id adresa");
-
-        Adresa adresa=null;
-        for (Adresa a:adrese) {
-            if(a.getIdAdresa()==idAdresa){
-                adresa=a;
-                break;
-            }
+        cititori.add(new Cititor(idCititor,username,parola,cititorNume,cititorPrenume,cititorDataNasterii,gen,nrCartiCitite,adresa,new ArrayList<Carte>(),abonament));
+    }
+    public static void afisareCititori(){
+        for (Cititor c:cititori){
+            System.out.println(c);
+            System.out.println();
         }
-
-
-        System.out.println("Abonamnet , veti introduce id-ul abonamentului: ");
-        afisareAdresa();
-
-        System.out.println("Id Abonamnet ");
-        int idAbonamnet =CitireInt("Id Abonament");
-
-        Abonament abonament=null;
-        for (Abonament a:abonamente) {
-            if(a.getIdAbonament()==idAbonamnet){
-                abonament=a;
-                break;
-            }
-        }
-
-        cititori.add(new Cititor(idCititor,cititorNume,cititorPrenume,cititorDataNasterii,gen,nrCartiCitite,adresa,new ArrayList<Carte>(),abonament));
     }
 
+    public static void afisareAutori(){
+        for (Autor a:autori){
+            System.out.println(a);
+            System.out.println();
+        }
+    }
     public static void adaugaAutor(){
         Scanner reader= new Scanner(System.in);
         System.out.println("Id-ul autorului este: ");
@@ -194,7 +212,7 @@ public class Controler {
         autori.add(new Autor(id,Nume,Prenume,DataNasterii,gen,nrCartiScrise));
     }
 
-    public static void adaugaAbonament(){
+    public static Abonament adaugaAbonament(){
         Scanner reader= new Scanner(System.in);
         System.out.println("Id-ul abonamentului este: ");
         int idAbonament=CitireInt("Id abonament");
@@ -203,8 +221,9 @@ public class Controler {
         String tipAbonament= reader.nextLine().toUpperCase();
 
         String status= "activ";
-
-        abonamente.add(new Abonament(idAbonament,tipAbonament,LocalDate.now(),status));
+        Abonament abon=new Abonament(idAbonament,tipAbonament,LocalDate.now(),status);
+        abonamente.add(abon);
+        return abon;
     }
 
     public static void afisareAbonamente(){
@@ -213,14 +232,16 @@ public class Controler {
             System.out.println();
         }
     }
-    public static void adaugaAdresa(){
+    public static Adresa adaugaAdresa(){
         Scanner reader= new Scanner(System.in);
         System.out.println("Id-ul locatiei este: ");
         int idAdresa = CitireInt("Id locatie");
 
         System.out.println("Locatia este: ");
         String adresalocatie= reader.nextLine().toUpperCase();
-        adrese.add(new Adresa(idAdresa, adresalocatie));
+        Adresa adresa=new Adresa(idAdresa, adresalocatie);
+        adrese.add(adresa);
+        return adresa;
 
     }
 
@@ -285,8 +306,8 @@ public class Controler {
 
     }
 
-
     public  static void afisareCarti(){
+        SortCarti();
         for (Carte c:carti) {
             System.out.println(c);
             System.out.println("");
@@ -311,15 +332,29 @@ public class Controler {
         }
     }
 
-
-
-    public static void ImprumutaCarte(){
+    public static void ImprumutaCarte(Cititor user,String numeCarte){
+        Carte c = FindByNameCarteNeimprumutata(numeCarte);
+        if(c!=null ){
+            user.ImprumutaCarte(c);
+        }else {
+            System.out.println("Cartea nu exista sau nu exista eemplare disponibile momentan.");
+        }
     }
 
-    public static  void ReturneazaCarte(){
+    public static  void ReturneazaCarte(Cititor user,String numeCarte){
+        Carte c = FindByNameCarte(numeCarte);
+        if(c!=null){
+            user.ReturneazaCarte(c);
+        }else{
+            System.out.println("nu exista cartea aceasta");
+        }
     }
 
-
+    public static void anuleazaAbonament(Cititor user){
+        Abonament a = user.getAbonament();
+        user.setAbonament(null);
+        abonamente.remove(a);
+    }
 
     public static void SortCarti(){
         Collections.sort(carti, new CarteComparator());

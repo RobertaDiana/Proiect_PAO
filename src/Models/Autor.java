@@ -31,4 +31,19 @@ public class Autor extends Persoana{
         this.nrCartiScrise = nrCartiScrise;
     }
 
+    @Override
+    public boolean equals(Object o){
+        if (this==o)
+            return true;
+
+        if (!(o instanceof Autor)) {
+            return false;
+        }
+        Autor a = (Autor) o;
+
+        if(this.nume.equals(a.nume) && this.prenume.equals(a.prenume))
+            return  true;
+
+        return false;
+    }
 }

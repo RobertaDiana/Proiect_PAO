@@ -100,6 +100,21 @@ public class Carte {
     }
 
 
+    @Override
+    public boolean equals(Object o){
+        if (this==o)
+            return true;
+
+        if (!(o instanceof Carte)) {
+            return false;
+        }
+        Carte c = (Carte) o;
+
+        if(this.title.equals(c.title) && this.autor.equals(c.autor))
+            return  true;
+
+        return false;
+    }
 
     @Override
     public String toString() {

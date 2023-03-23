@@ -5,25 +5,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Cititor extends Persoana {
-    
+
+    private String userName;
+    private  String parola;
+
     private int nrCartiCitite;
     private Adresa adresa;
     private List<Carte> carti;
     private Abonament abonament;
     
-    public Cititor(int id, String nume, String prenume, LocalDate dataNastere, String gen, int nrCartiCitite,
-            Adresa adresa, List<Carte> carti, Abonament abonament) {
+    public Cititor(int id,String username,String parola, String nume, String prenume, LocalDate dataNastere, String gen,
+                   int nrCartiCitite, Adresa adresa, List<Carte> carti, Abonament abonament) {
         super(id, nume, prenume, dataNastere, gen);
         this.nrCartiCitite = nrCartiCitite;
         this.adresa = adresa;
         this.carti = carti;
         this.abonament = abonament;
+        this.userName=username;
+        this.parola=parola;
+
     }
     public Cititor() {
+        super();
         this.nrCartiCitite = 0;
         this.adresa = null;
         this.carti = null;
         this.abonament = null;
+        this.userName="user";
+        this.parola="parola";
     }
     public int getNrCartiCitite() {
         return nrCartiCitite;
@@ -55,32 +64,27 @@ public class Cititor extends Persoana {
                 + abonament + "]";
     }
 
-    public String ImprumutaCarte(Carte c){
 
-        if(c.getImprumut()==true)
-            return "cartea este imprumutata de cineva";
-        
+    public void ImprumutaCarte(Carte c){
         if (carti==null)
             carti=new ArrayList<Carte>();
-        carti.add(c); 
-        return "Ok";
+        if(c.getImprumut()==false )//daca carte nu e imprumutata
+            carti.add(c);
+
+    }
+    public void ReturneazaCarte(Carte c){
+        carti.remove(c);
     }
 
-    public String ReturneazaCarte(Carte c){
-
-        nrCartiCitite += 1;
-        if (carti==null || carti.isEmpty())
-            return "nu are carti imprumutate";
-        
-        int index=carti.indexOf(c);
-        if( index==-1)
-            return "Nu a imprumutat aceasta carete";
-        
-        
-        carti.remove(index); 
-        return "Ok";
+    public String getUserName() {
+        return userName;
     }
-    
 
-    
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public boolean VerificareParola(String posibilaParola){
+        return this.parola.contentEquals(posibilaParola);
+    }
 }

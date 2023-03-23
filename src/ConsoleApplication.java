@@ -1,16 +1,18 @@
 import controler.Controler;
-import models.Persoana;
+import models.Cititor;
 
 import java.util.Scanner;
 
 public class ConsoleApplication {
     public static void main(String[] args) {
 
-
+        Cititor user= null;
         Controler.init();
+
+
         while(true) {
 
-            meniu();
+            meniu(user);
 
             Scanner sc = new Scanner(System.in);
 
@@ -19,31 +21,18 @@ public class ConsoleApplication {
             switch (comand) {
                 case "a":
                     Controler.adaugaCarte();
-//                    System.out.println(Controler.carti);
-                    break;
-                case "b":
-                    Controler.adaugaAdresa();
-//                    System.out.println(Controler.adrese);
-                    break;
-                case "c":
-                    Controler.adaugaAbonament();
-//                    System.out.println(Controler.abonamente);
                     break;
                 case "d":
                     Controler.adaugaCategorie();
-//                    System.out.println(Controler.categorii);
                     break;
                 case "e":
                     Controler.adaugaEditura();
-//                    System.out.println(Controler.edituri);
                     break;
                 case "f":
                     Controler.adaugaAutor();
-//                    System.out.println(Controler.autori);
                     break;
                 case "g":
                     Controler.adaugaCititor();
-//                    System.out.println(Controler.cititori);
                     break;
 
 
@@ -52,61 +41,74 @@ public class ConsoleApplication {
                     break;
                 case "i":
                     Controler.afisareAdresa();
-//                    System.out.println(Controler.adrese);
                     break;
                 case "j":
                     Controler.afisareAbonamente();
                     break;
                 case "k":
                     Controler.afisareEditura();
-//                    System.out.println(Controler.edituri);
                     break;
                 case "l":
-
+                    Controler.afisareAutori();
                     break;
                 case "m":
-
+                    Controler.afisareCititori();
                     break;
                 case "n":
                     Controler.afisareCategorie();
-//                    System.out.println(Controler.categorii);
                     break;
 
 
                 case "o":
+                    if(user!=null) {
+                        System.out.println("Introduceti numele cartii:");
+                        String carte = sc.nextLine();
+                        Controler.ReturneazaCarte(user,carte );
+                    }else
+                        System.out.println("nu sunteti autentificat, va rugam autentificati-va");
                     break;
                 case "p":
-
+                    if(user!=null) {
+                        System.out.println("Introduceti numele cartii:");
+                        String carte = sc.nextLine();
+                        Controler.ImprumutaCarte(user,carte );
+                    }else
+                        System.out.println("nu sunteti autentificat, va rugam autentificati-va");
                     break;
 
 
-                case "q":
-
-                    break;
-                case "r":
-
-                    break;
                 case "s":
-
+                    if(user!=null)
+                        Controler.anuleazaAbonament(user);
+                    else
+                        System.out.println("nu sunteti autentificat, va rugam autentificati-va");
                     break;
-                case "t":
+
+                case "v":
                     return;
                 default:
                     System.out.println("nu ati introdus o comanda valida");
                     break;
             }
+
+            System.out.println("Apasati oricetatasa pentru a continua");
+            String op=sc.next();
+
         }
 
     }
 
-    private static void meniu(){
+    private static void meniu(Cititor user){
 
+        if(user!=null) {
+            System.out.println("*************User**************");
+            System.out.println(user.getUserName());
+
+        }
         System.out.println("************Meniu**************");
 
 
         System.out.println("a. Adauga carte");
-        System.out.println("b. Adauga adresa");
-        System.out.println("c. Adauga abonament");
         System.out.println("d. Adauga categorie");
         System.out.println("e. Adauga editura");
         System.out.println("f. Adauga autor");
@@ -126,7 +128,11 @@ public class ConsoleApplication {
         System.out.println("q. Modifica carte");
         System.out.println("r. Modifica categorie");
         System.out.println("s. Anuleaza abonament");
-        System.out.println("t. Exit");
+
+
+        System.out.println("t. LogIn");
+        System.out.println("u. LogOut");
+        System.out.println("v. Exit");
 
         System.out.println("Introduceti o comanda:");
 
