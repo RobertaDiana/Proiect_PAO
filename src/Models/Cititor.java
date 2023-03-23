@@ -6,23 +6,20 @@ import java.util.List;
 
 public class Cititor extends Persoana {
 
-    private String userName;
-    private  String parola;
 
     private int nrCartiCitite;
     private Adresa adresa;
     private List<Carte> carti;
     private Abonament abonament;
     
-    public Cititor(int id,String username,String parola, String nume, String prenume, LocalDate dataNastere, String gen,
+    public Cititor(int id, String nume, String prenume, LocalDate dataNastere, String gen,
                    int nrCartiCitite, Adresa adresa, List<Carte> carti, Abonament abonament) {
         super(id, nume, prenume, dataNastere, gen);
         this.nrCartiCitite = nrCartiCitite;
         this.adresa = adresa;
         this.carti = carti;
         this.abonament = abonament;
-        this.userName=username;
-        this.parola=parola;
+
 
     }
     public Cititor() {
@@ -31,8 +28,7 @@ public class Cititor extends Persoana {
         this.adresa = null;
         this.carti = null;
         this.abonament = null;
-        this.userName="user";
-        this.parola="parola";
+
     }
     public int getNrCartiCitite() {
         return nrCartiCitite;
@@ -73,18 +69,11 @@ public class Cititor extends Persoana {
 
     }
     public void ReturneazaCarte(Carte c){
+        if (carti==null)
+            carti=new ArrayList<Carte>();
+        if(carti.isEmpty())
+            return;
         carti.remove(c);
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public boolean VerificareParola(String posibilaParola){
-        return this.parola.contentEquals(posibilaParola);
-    }
 }

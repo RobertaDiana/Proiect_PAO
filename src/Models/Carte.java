@@ -110,7 +110,7 @@ public class Carte {
         }
         Carte c = (Carte) o;
 
-        if(this.title.equals(c.title) && this.autor.equals(c.autor))
+        if(this.idCarte==((Carte) o).idCarte)
             return  true;
 
         return false;
