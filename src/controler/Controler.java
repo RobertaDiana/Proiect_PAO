@@ -96,22 +96,21 @@ public class Controler {
         return new Categorie(-1,null);
     }
 
-    public static Carte FindByNameCarte(String denumire){
-        for(Carte c:carti){
-            if(c.getTitle().contentEquals(denumire))
-                return c;
-        }
-        return null;
+    public static Carte getCarte(int id){
+        List<Carte> carte = carti.stream().filter(c->c.getIdCarte()==id).toList();
+        if(carte.isEmpty())
+            return null;
+
+        return carte.get(0);
+
     }
-    public static Carte FindByNameCarteNeimprumutata(String denumire){
-        for(Carte c:carti){
-            if(c.getTitle().contentEquals(denumire) && c.getImprumut()==false)
-                return c;
-        }
-        return null;
-    }
-    public static Boolean existaUser(String username){
-        return !cititori.stream().filter(cit-> cit.getUserName().contentEquals(username) ).toList().isEmpty();
+    public static Cititor getCititor(int id){
+        List<Cititor> cititor = cititori.stream().filter(c->c.getId()==id).toList();
+        if(cititor.isEmpty())
+            return null;
+
+        return cititor.get(0);
+
     }
 
     public static void adaugaCategorie(){
@@ -139,22 +138,6 @@ public class Controler {
         int idCititor = CitireInt("Id cititor");
 
 
-
-
-        System.out.println("Username: ");
-        String username=reader.nextLine();
-
-        while( existaUser(username) ){
-            System.out.println("Acest username deja exista: ");
-            System.out.println("Username: ");
-            username=reader.nextLine();
-        }
-
-
-
-        System.out.println("Parola: ");
-        String parola=reader.nextLine();
-
         System.out.println("Numele cititorului este: ");
         String cititorNume= reader.nextLine().toUpperCase();
 
@@ -174,7 +157,7 @@ public class Controler {
         Adresa adresa=adaugaAdresa();
         Abonament abonament=adaugaAbonament();
 
-        cititori.add(new Cititor(idCititor,username,parola,cititorNume,cititorPrenume,cititorDataNasterii,gen,nrCartiCitite,adresa,new ArrayList<Carte>(),abonament));
+        cititori.add(new Cititor(idCititor,cititorNume,cititorPrenume,cititorDataNasterii,gen,nrCartiCitite,adresa,new ArrayList<Carte>(),abonament));
     }
     public static void afisareCititori(){
         for (Cititor c:cititori){
@@ -332,22 +315,57 @@ public class Controler {
         }
     }
 
-    public static void ImprumutaCarte(Cititor user,String numeCarte){
-        Carte c = FindByNameCarteNeimprumutata(numeCarte);
-        if(c!=null ){
-            user.ImprumutaCarte(c);
-        }else {
-            System.out.println("Cartea nu exista sau nu exista eemplare disponibile momentan.");
+    public static void ImprumutaCarte(){
+        System.out.println("Introduceti id-ul cartii");
+        int idCarte = CitireInt("Introduceti id-ul cartii");
+
+        System.out.println("Introduceti id-ul cititorului");
+        int idCititor = CitireInt("Introduceti id-ul cititorului");
+
+        Carte carte = getCarte(idCarte);
+        if(carte==null){
+            System.out.println("nu exista cartea aceasta");
+            return;
         }
+
+        if(carte.getImprumut()==true){
+            System.out.println("carte nu e disponibila");
+            return;
+        }
+
+        Cititor cititor = getCititor(idCititor);
+
+        if(cititor==null) {
+            System.out.println("nu exista acest cititor");
+            return;
+        }
+        cititor.ImprumutaCarte(carte);
+        carte.setImprumut(true);
+
     }
 
-    public static  void ReturneazaCarte(Cititor user,String numeCarte){
-        Carte c = FindByNameCarte(numeCarte);
-        if(c!=null){
-            user.ReturneazaCarte(c);
-        }else{
+    public static  void ReturneazaCarte(){
+        System.out.println("Introduceti id-ul cartii");
+        int idCarte = CitireInt("Introduceti id-ul cartii");
+
+        System.out.println("Introduceti id-ul cititorului");
+        int idCititor = CitireInt("Introduceti id-ul cititorului");
+
+        Carte carte = getCarte(idCarte);
+        if(carte==null){
             System.out.println("nu exista cartea aceasta");
+            return;
         }
+
+
+        Cititor cititor = getCititor(idCititor);
+
+        if(cititor==null) {
+            System.out.println("nu exista acest cititor");
+            return;
+        }
+        cititor.ReturneazaCarte(carte);
+        carte.setImprumut(false);
     }
 
     public static void anuleazaAbonament(Cititor user){

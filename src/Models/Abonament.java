@@ -48,9 +48,20 @@ public class Abonament extends Cititor {
     }
 
     @Override
+    public boolean equals(Object o){
+        if(this==o)
+            return true;
+
+        if (!(o instanceof Abonament)) {
+            return false;
+        }
+        return this.idAbonament==((Abonament) o).idAbonament;
+    }
+
+    @Override
     public String toString()
     {
-        super.toString();
+
         return "Abonament{" +
                 "idAbonament=" + idAbonament +
                 ", tipAbonament='" + tipAbonament + '\'' +

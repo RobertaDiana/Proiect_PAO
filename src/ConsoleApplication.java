@@ -1,90 +1,78 @@
 import controler.Controler;
-import models.Cititor;
+
 
 import java.util.Scanner;
 
 public class ConsoleApplication {
     public static void main(String[] args) {
 
-        Cititor user= null;
         Controler.init();
 
 
         while(true) {
 
-            meniu(user);
+            meniu();
 
             Scanner sc = new Scanner(System.in);
-
             String comand = sc.next();
+
 
             switch (comand) {
                 case "a":
                     Controler.adaugaCarte();
                     break;
-                case "d":
+                case "b":
                     Controler.adaugaCategorie();
                     break;
-                case "e":
+                case "c":
                     Controler.adaugaEditura();
                     break;
-                case "f":
+                case "d":
                     Controler.adaugaAutor();
                     break;
-                case "g":
+                case "e":
                     Controler.adaugaCititor();
                     break;
 
 
-                case "h":
+                case "f":
                     Controler.afisareCarti();
                     break;
-                case "i":
+                case "g":
                     Controler.afisareAdresa();
                     break;
-                case "j":
+                case "h":
                     Controler.afisareAbonamente();
                     break;
-                case "k":
+                case "i":
                     Controler.afisareEditura();
                     break;
-                case "l":
+                case "j":
                     Controler.afisareAutori();
                     break;
-                case "m":
+                case "k":
                     Controler.afisareCititori();
                     break;
-                case "n":
+                case "l":
                     Controler.afisareCategorie();
                     break;
 
 
+                case "m":
+                    Controler.ReturneazaCarte();
+                    break;
+                case "n":
+                    Controler.ImprumutaCarte();
+                    break;
+
                 case "o":
-                    if(user!=null) {
-                        System.out.println("Introduceti numele cartii:");
-                        String carte = sc.nextLine();
-                        Controler.ReturneazaCarte(user,carte );
-                    }else
-                        System.out.println("nu sunteti autentificat, va rugam autentificati-va");
-                    break;
+//                    if(user!=null)
+//                        Controler.anuleazaAbonament(user);
+//                    else
+//                        System.out.println("nu sunteti autentificat, va rugam autentificati-va");
+//                    break;
+
                 case "p":
-                    if(user!=null) {
-                        System.out.println("Introduceti numele cartii:");
-                        String carte = sc.nextLine();
-                        Controler.ImprumutaCarte(user,carte );
-                    }else
-                        System.out.println("nu sunteti autentificat, va rugam autentificati-va");
-                    break;
-
-
-                case "s":
-                    if(user!=null)
-                        Controler.anuleazaAbonament(user);
-                    else
-                        System.out.println("nu sunteti autentificat, va rugam autentificati-va");
-                    break;
-
-                case "v":
                     return;
                 default:
                     System.out.println("nu ati introdus o comanda valida");
@@ -96,47 +84,39 @@ public class ConsoleApplication {
 
         }
 
+
+
+
     }
+    private static void meniu(){
 
-    private static void meniu(Cititor user){
 
-        if(user!=null) {
-            System.out.println("*************User**************");
-            System.out.println(user.getUserName());
-
-        }
         System.out.println("************Meniu**************");
 
 
         System.out.println("a. Adauga carte");
-        System.out.println("d. Adauga categorie");
-        System.out.println("e. Adauga editura");
-        System.out.println("f. Adauga autor");
-        System.out.println("g. Adauga cititor");
+        System.out.println("b. Adauga categorie");
+        System.out.println("c. Adauga editura");
+        System.out.println("d. Adauga autor");
+        System.out.println("e. Adauga cititor");
 
-        System.out.println("h. Afisare carti");
-        System.out.println("i. Afisare adresa");
-        System.out.println("j. Afisare abonament");
-        System.out.println("k. Afisare editura");
-        System.out.println("l. Afisare autor");
-        System.out.println("m. Afisare cititor");
-        System.out.println("n. Afisare categorie");
+        System.out.println("f. Afisare carti");
+        System.out.println("g. Afisare adresa");
+        System.out.println("h. Afisare abonament");
+        System.out.println("i. Afisare editura");
+        System.out.println("j. Afisare autor");
+        System.out.println("k. Afisare cititor");
+        System.out.println("l. Afisare categorie");
 
-        System.out.println("o. Returneaza carte");
-        System.out.println("p. Imprumuta carte");
+        System.out.println("m. Returneaza carte");
+        System.out.println("n. Imprumuta carte");
 
-        System.out.println("q. Modifica carte");
-        System.out.println("r. Modifica categorie");
-        System.out.println("s. Anuleaza abonament");
+        System.out.println("o. Anuleaza abonament");
 
-
-        System.out.println("t. LogIn");
-        System.out.println("u. LogOut");
-        System.out.println("v. Exit");
+        System.out.println("p. Exit");
 
         System.out.println("Introduceti o comanda:");
 
     }
-
 
 }
