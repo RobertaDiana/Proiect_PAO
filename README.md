@@ -1,7 +1,31 @@
 # Proiect_PAO
-We create an online-library in Java.
+Bibliotecă online în Java
 
-Team : 
+**Echipă** : 
 Micu Diana-Roberta & Popescu Vasile-Alin
 
-Name: Cărturești
+**Nume**: Cărturești
+
+# Etapa 1
+
+ **Tema proiectului**: implementarea unui sistem de gestiune al cărților dintr-o bibliotecă și vizualizarea datelor despre acestea 
+
+* Class Carte: Avem o clasă în care am pus ID, titlul cărții, autorii, categoria din care face parte, data publicării, editura și dacă este împrumutată sau nu.
+
+* Class Persoană: Avem o clasă părinte în care avem atributele: id, nume, prenume, data nașterii și gen.
+
+* Class Autor: Este o clasă copil care moștenește clasa părinte cu atributele specificate mai sus și în plus avem o valoare pentru numărul de cărți scrise.
+
+* Class Cititor: Clasă copil care moștenește clasa părinte și avem în plus numărul de cărți citite, adresa, și ce tip de abonament are.
+
+* Class Categorie: Este o clasă în care avem id-ul și numele categoriei.
+
+* Class Editură: Este o clasă în care avem id-ul și denumirea ei.
+
+* Class Abonament: Este o clasă copil care moștenește clasa Cititor deoarece abonamentul aparține de cititor și avem un id, tipul abonamentului, data când s-a creat și statusul.
+
+* Class Adresă: Este o clasă în care avem id-ul și adresa.
+
+Pe lângă acestea, programul mai conține:
+* Controler: Cuprinde toate funcțiile utile pentru realizarea comenzilor din meniu
+* ConsoleApplication: Implementează un meniu și rulează programul principal.
