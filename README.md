@@ -29,3 +29,8 @@ Micu Diana-Roberta & Popescu Vasile-Alin
 Pe lângă acestea, programul mai conține:
 * Controler: Cuprinde toate funcțiile utile pentru realizarea comenzilor din meniu
 * ConsoleApplication: Implementează un meniu și rulează programul principal.
+
+![diagrama](https://user-images.githubusercontent.com/93095672/227785146-81729979-385e-42b1-a295-940d93913aec.png)
+
+
+
