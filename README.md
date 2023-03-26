@@ -22,7 +22,7 @@ Micu Diana-Roberta & Popescu Vasile-Alin
 
 * Class Editură: Este o clasă în care avem id-ul și denumirea ei.
 
-* Class Abonament: Este o clasă copil care moștenește clasa Cititor deoarece abonamentul aparține de cititor și avem un id, tipul abonamentului, data când s-a creat și statusul.
+* Class Abonament: Este o clasă în care avem un id, tipul abonamentului, data când s-a creat și statusul.
 
 * Class Adresă: Este o clasă în care avem id-ul și adresa.
 
