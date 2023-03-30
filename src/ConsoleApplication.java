@@ -66,11 +66,9 @@ public class ConsoleApplication {
                     break;
 
                 case "o":
-//                    if(user!=null)
-//                        Controler.anuleazaAbonament(user);
-//                    else
-//                        System.out.println("nu sunteti autentificat, va rugam autentificati-va");
-//                    break;
+
+                    Controler.anuleazaAbonament();
+                    break;
 
                 case "p":
                     return;

@@ -368,10 +368,20 @@ public class Controler {
         carte.setImprumut(false);
     }
 
-    public static void anuleazaAbonament(Cititor user){
-        Abonament a = user.getAbonament();
-        user.setAbonament(null);
-        abonamente.remove(a);
+    public static void anuleazaAbonament(){
+        System.out.println("Introduceti id-ul cititorului");
+        int idCititor = CitireInt("Introduceti id-ul cititorului");
+        Cititor cititor = getCititor(idCititor);
+
+        if(cititor==null) {
+            System.out.println("nu exista acest cititor");
+            return;
+        }
+        Abonament a= cititor.getAbonament();
+        if(a!=null){
+            cititor.setAbonament(null);
+            abonamente.remove(a);
+        }
     }
 
     public static void SortCarti(){
