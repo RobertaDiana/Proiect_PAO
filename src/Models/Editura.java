@@ -17,10 +17,9 @@ public class Editura {
     }
     @Override
     public String toString() {
-        return "Editura{" +
-                "idEditura=" + idEditura +
-                ", denumire='" + denumire + '\'' +
-                '}';
+        return  "Editura" + '\n' +
+                "idEditura=" + idEditura + '\n' +
+                "denumire=" + denumire + '\n';
     }
 
     public int getIdEditura() {

@@ -118,9 +118,14 @@ public class Carte {
 
     @Override
     public String toString() {
-        return "Carte [idCarte=" + idCarte + ", title=" + title + ", autor=" + autor + ", categorie=" + categorie
-                + ", dataPublicarii=" + dataPublicarii + ", editura=" + editura
-                + ", imprumut=" + imprumut + "]";
+        return  "Carte" + '\n' +
+                "idCarte=" + idCarte + '\n' +
+                "title=" + title + '\n' +
+                "autor=" + autor + '\n' +
+                "categorie=" + categorie + '\n' +
+                "dataPublicarii=" + dataPublicarii + '\n' +
+                "editura=" + editura + '\n' +
+                "imprumut=" + imprumut + '\n';
     }
 
 

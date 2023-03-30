@@ -7,9 +7,9 @@ public class Autor extends Persoana{
 
     @Override
     public String toString() {
-        return "Autor{" +super.toString()+
-                ", nrCartiScrise=" + nrCartiScrise +
-                '}';
+        return  "Autor" + '\n' +
+                super.toString()+
+                "nrCartiScrise=" + nrCartiScrise + '\n';
     }
 
     public Autor(int id, String nume,String prenume, LocalDate dataNastere,String gen,int nrCartiScrise) {

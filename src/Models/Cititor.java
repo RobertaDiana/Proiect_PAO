@@ -56,8 +56,11 @@ public class Cititor extends Persoana {
     }
     @Override
     public String toString() {
-        return "Cititor" + super.toString() + " [nrCartiCitite=" + nrCartiCitite + ", adresa=" + adresa + ", carti=" + carti + ", abonament="
-                + abonament + "]";
+        return   "Cititor" + '\n' + super.toString() +
+                "nrCartiCitite=" + nrCartiCitite + '\n' +
+                "adresa=" + adresa + '\n' +
+                "carti=" + carti + '\n' +
+                "abonament=" + abonament + '\n';
     }
 
 

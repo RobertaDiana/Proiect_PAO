@@ -33,9 +33,9 @@ public class Adresa {
 
     @Override
     public String toString() {
-        return  "Adresa"+ 
-                "\n   idAdresa: " + idAdresa + 
-                "\n   adresa: " + adresa ;
+        return  "Adresa" + '\n' +
+                "idAdresa: " + idAdresa + '\n' +
+                "adresa: " + adresa + '\n' ;
     }
     
 }

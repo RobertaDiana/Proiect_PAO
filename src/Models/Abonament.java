@@ -1,7 +1,7 @@
 package models;
 import java.time.LocalDate;
 
-public class Abonament extends Cititor {
+public class Abonament  {
     private int idAbonament;
     private String tipAbonament;
     private LocalDate dataCreare;
@@ -62,12 +62,12 @@ public class Abonament extends Cititor {
     public String toString()
     {
 
-        return "Abonament{" +
-                "idAbonament=" + idAbonament +
-                ", tipAbonament='" + tipAbonament + '\'' +
-                ", dataCreare=" + dataCreare +
-                ", status='" + status + '\'' +
-                '}';
+        return "Abonament " + '\n' +
+                "idAbonament=" + idAbonament + '\n' +
+                "tipAbonament=" + tipAbonament + '\n' +
+                "dataCreare=" + dataCreare + '\n' +
+                "status=" + status + '\n';
+
     }
 
     public String getStatus() {

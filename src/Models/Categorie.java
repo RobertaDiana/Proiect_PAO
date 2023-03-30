@@ -20,10 +20,10 @@ public class Categorie {
 
     @Override
     public String toString() {
-        return "Categorie{" +
-                "idCategorie=" + idCategorie +
-                ", nume=" + nume +
-                '}';
+        return  "Categorie" + '\n' +
+                "idCategorie=" + idCategorie + '\n' +
+                "nume=" + nume + '\n';
+
     }
 
     public int getIdCategorie() {

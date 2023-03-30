@@ -68,13 +68,12 @@ public class Persoana {
 
     @Override
     public String toString() {
-        return "Person{" +
-                "id='" + id + '\'' +
-                ", nume='" + nume + '\'' +
-                ", prenume='" + prenume + '\'' +
-                ", dataNastere=" + dataNastere +
-                ", gen='" + gen + '\'' +
-                '}';
+        return
+                "id=" + id + '\n' +
+                "nume=" + nume + '\n'+
+                "prenume=" + prenume + '\n'+
+                "dataNastere=" + dataNastere + '\n' +
+                "gen=" + gen + '\n';
     }
 }
 
