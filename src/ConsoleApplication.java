@@ -77,7 +77,7 @@ public class ConsoleApplication {
                     break;
             }
 
-            System.out.println("Apasati oricetatasa pentru a continua");
+            System.out.println("Apasati orice tasta pentru a continua");
             String op=sc.next();
 
         }

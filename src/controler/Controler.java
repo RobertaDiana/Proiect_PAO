@@ -20,8 +20,8 @@ public class Controler {
 
 
     public static void init(){
-        abonamente.add(new Abonament(1,"tip 1",LocalDate.now(),"acctiv"));
-        abonamente.add(new Abonament(2,"tip 2",LocalDate.now(),"acctiv"));
+        abonamente.add(new Abonament(1,"tip 1",LocalDate.now(),"activ"));
+        abonamente.add(new Abonament(2,"tip 2",LocalDate.now(),"activ"));
 
         adrese.add(new Adresa(2,"test adresa 2"));
         adrese.add(new Adresa(1,"test adresa"));
@@ -243,7 +243,7 @@ public class Controler {
         System.out.println("Numele cartii este: ");
         String carteNume= reader.nextLine().toUpperCase();
 
-        System.out.println("Intorduceti numele si prenumele autorilor separati prin virgula: ");
+        System.out.println("Introduceti numele si prenumele autorilor separati prin virgula: ");
 
         String[] autoriStr= reader.nextLine().toUpperCase().toUpperCase().split(",");
         Set<Autor> autoriCarte= new HashSet<Autor>();
@@ -254,7 +254,7 @@ public class Controler {
                 autoriCarte.add(a);
         }
 
-        System.out.println("Intorduceti denumirile categoriilor separate prin virgula:");
+        System.out.println("Introduceti denumirile categoriilor separate prin virgula:");
         String[] CategorieStr= reader.nextLine().toUpperCase().toUpperCase().split(",");
         List<Categorie> categorieList= new ArrayList<Categorie>();
 
@@ -265,7 +265,7 @@ public class Controler {
         }
 
 
-        System.out.println("Intorduceti anul publicarii:  ");
+        System.out.println("Introduceti anul publicarii:  ");
         int anPublicare = CitireInt("Intorduceti an publicare");
 
         System.out.println("Statusul cartii este(imprumutat/neimprumutat)? ");
