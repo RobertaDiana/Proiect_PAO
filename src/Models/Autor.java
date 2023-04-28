@@ -1,28 +1,26 @@
-package Models;
+package models;
+
+import java.time.LocalDate;
 
 public class Autor extends Persoana{
-    private int idAutor;
     private int nrCartiScrise;
 
     @Override
     public String toString() {
-        super.toString();
-        return "Autor{" +
-                "idAutor=" + idAutor +
-                ", nrCartiScrise=" + nrCartiScrise +
-                '}';
+        return  "Autor" + '\n' +
+                super.toString()+
+                "nrCartiScrise=" + nrCartiScrise + '\n';
     }
 
-    public Autor(int nrCartiScrise) {
-        super();
-        this.idAutor=idAutor;
+    public Autor(int id, String nume,String prenume, LocalDate dataNastere,String gen,int nrCartiScrise) {
+        super(id,nume,prenume,dataNastere,gen);
         this.nrCartiScrise = nrCartiScrise;
     }
 
     public Autor()
     {
-        this.idAutor=1;
-        this.nrCartiScrise=1;
+        super();
+        this.nrCartiScrise=0;
     }
 
     public int getNrCartiScrise() {
@@ -33,11 +31,19 @@ public class Autor extends Persoana{
         this.nrCartiScrise = nrCartiScrise;
     }
 
-    public int getIdAutor() {
-        return idAutor;
-    }
+    @Override
+    public boolean equals(Object o){
+        if (this==o)
+            return true;
 
-    public void setIdAutor(int idAutor) {
-        this.idAutor = idAutor;
+        if (!(o instanceof Autor)) {
+            return false;
+        }
+        Autor a = (Autor) o;
+
+        if(this.nume.equals(a.nume) && this.prenume.equals(a.prenume))
+            return  true;
+
+        return false;
     }
 }

@@ -1,4 +1,4 @@
-package Models;
+package models;
 public class Editura {
     private int idEditura;
     private String denumire;
@@ -13,14 +13,13 @@ public class Editura {
     public Editura ()
     {
         this.idEditura=1;
-        this.denumire="Aramis";
+        this.denumire="Necunoscut";
     }
     @Override
     public String toString() {
-        return "Editura{" +
-                "idEditura=" + idEditura +
-                ", denumire='" + denumire + '\'' +
-                '}';
+        return  "Editura" + '\n' +
+                "idEditura=" + idEditura + '\n' +
+                "denumire=" + denumire + '\n';
     }
 
     public int getIdEditura() {

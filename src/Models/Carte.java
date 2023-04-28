@@ -1,46 +1,44 @@
 
-package Models;
+package models;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
 
 public class Carte {
     private int idCarte;
     private String title;
-
-    private Autor autor;
+    private Set<Autor> autor;
+    private List<Categorie> categorie;
     private int dataPublicarii;
-    private int cantitate;
-
     private Editura editura;
+    private Boolean imprumut;
 
-    private Imprumut imprumut;
+    
 
-    public Carte(int idCarte, String title, int dataPublicarii, int cantitate)
-    {
-        this.idCarte=idCarte;
-        this.title= title;
-        this.dataPublicarii=dataPublicarii;
-        this.cantitate=cantitate;
+    public Carte(int idCarte, String title, Set<Autor> autor, List<Categorie> categorie, int dataPublicarii,
+                 Editura editura, Boolean imprumut) {
+        this.idCarte = idCarte;
+        this.title = title;
+        this.autor = autor;
+        this.categorie = categorie;
+        this.dataPublicarii = dataPublicarii;
+        this.editura = editura;
+        this.imprumut = imprumut;
     }
 
-    @Override
-    public String toString() {
-        return "Carte{" +
-                "idCarte=" + idCarte +
-                ", title='" + title + '\'' +
-                ", autor=" + autor +
-                ", dataPublicarii=" + dataPublicarii +
-                ", cantitate=" + cantitate +
-                ", editura=" + editura +
-                '}';
-    }
-
+    
     public Carte()
     {
-        this.idCarte=1;
-        this.title="Carte";
-        this.dataPublicarii=2023-03-02;
-        this.cantitate=1;
+        this.idCarte = -1;
+        this.title = "Necunoscut";
+        this.autor = null;
+        this.dataPublicarii = LocalDate.now().getYear();
+        this.editura = null;
+        this.imprumut = false;
+        this.categorie = null;
     }
 
+    
     public int getIdCarte() {
         return idCarte;
     }
@@ -65,11 +63,73 @@ public class Carte {
         this.dataPublicarii = dataPublicarii;
     }
 
-    public int getCantitate() {
-        return cantitate;
+
+
+    public List<Categorie> getCategorie() {
+        return categorie;
     }
 
-    public void setCantitate(int cantitate) {
-        this.cantitate = cantitate;
+
+    public void setCategorie(List<Categorie> categorie) {
+        this.categorie = categorie;
     }
+
+    public Set<Autor> setAutor(){
+        return autor;
+    }
+    public void setAutor( Set<Autor> autor){
+        this.autor=autor;
+    }
+    public Editura getEditura() {
+        return editura;
+    }
+    public void setEditura(Editura editura) {
+        this.editura = editura;
+    }
+
+
+
+    public Boolean getImprumut() {
+        return imprumut;
+    }
+
+
+
+    public void setImprumut(Boolean imprumut) {
+        this.imprumut = imprumut;
+    }
+
+
+    @Override
+    public boolean equals(Object o){
+        if (this==o)
+            return true;
+
+        if (!(o instanceof Carte)) {
+            return false;
+        }
+        Carte c = (Carte) o;
+
+        if(this.idCarte==((Carte) o).idCarte)
+            return  true;
+
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return  "Carte" + '\n' +
+                "idCarte=" + idCarte + '\n' +
+                "title=" + title + '\n' +
+                "autor=" + autor + '\n' +
+                "categorie=" + categorie + '\n' +
+                "dataPublicarii=" + dataPublicarii + '\n' +
+                "editura=" + editura + '\n' +
+                "imprumut=" + imprumut + '\n';
+    }
+
+
 }
+
+
+
