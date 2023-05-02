@@ -1,28 +1,28 @@
 package repository;
+
 import database.DatabaseConfiguration;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import models.Autor;
+
+import java.sql.*;
 import java.time.LocalDate;
 
-public class PersoanaRepository {
-    private  static PersoanaRepository persoanaRepository;
-    private PersoanaRepository() {}
-    public static PersoanaRepository getInstance()
+public class AutorRepository {
+    private static AutorRepository autorRepository;
+    private AutorRepository() {}
+    public static AutorRepository getInstance()
     {
-        if (persoanaRepository == null)
-            persoanaRepository = new PersoanaRepository();
-        return persoanaRepository;
+        if (autorRepository == null ) autorRepository = new AutorRepository();
+        return autorRepository;
     }
 
     public void createTable() {
-        String createTableSql = "CREATE TABLE IF NOT EXISTS PERSOANA " +
+        String createTableSql = "CREATE TABLE IF NOT EXISTS AUTOR " +
                 "(id int PRIMARY KEY AUTO_INCREMENT, " +
                 "nume varchar(100), " +
                 "prenume varchar(100), " +
                 "dataNastere date, " +
-                "gen varchar(100); ";
+                "gen varchar(100), " +
+                "nrCartiScrise int; ";
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 
         try (Statement stmt = connection.createStatement()) {
@@ -33,26 +33,26 @@ public class PersoanaRepository {
     }
     public void addData()
     {
-        String selectSQL = "SELECT * FROM PERSOANA;";
+        String selectSQL = "SELECT * FROM AUTOR;";
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 
     }
 
-    public void addPersoana(String nume, String prenume, LocalDate dataNastere, String gen) {
-        String insertPersoanaSql = "INSERT INTO PERSOANA(nume, prenume, dataNastere, gen) VALUES(\""
-                + nume + "\"" + prenume + "\"" + dataNastere + "\"" + gen + "\");";
+    public void addAutor(String nume, String prenume, LocalDate dataNastere, String gen, int nrCartiScrise) {
+        String insertAutorSql = "INSERT INTO PERSOANA(nume, prenume, dataNastere, gen, nrCartiScrise) VALUES(\""
+                + nume + "\"" + prenume + "\"" + dataNastere + "\"" + gen + "\"" + nrCartiScrise + "\");";
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 
         try (Statement stmt = connection.createStatement()) {
-            stmt.executeUpdate(insertPersoanaSql);
+            stmt.executeUpdate(insertAutorSql);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    public void displayPersoana()
+    public void displayAutor()
     {
-        String selectSql = "SELECT * FROM PERSOANA;";
+        String selectSql = "SELECT * FROM AUTOR;";
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 
@@ -67,6 +67,7 @@ public class PersoanaRepository {
                 System.out.println("Prenume : " + resultSet.getString(3));
                 System.out.println("Data nastere : " + resultSet.getDate(4));
                 System.out.println("Gen: " + resultSet.getString(5));
+                System.out.println("Numarul de carti scrise: " + resultSet.getInt(6));
                 System.out.println();
             }
 
@@ -81,3 +82,5 @@ public class PersoanaRepository {
         }
     }
 }
+
+

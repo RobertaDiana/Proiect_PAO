@@ -41,7 +41,7 @@ public class Autor extends Persoana{
         }
         Autor a = (Autor) o;
 
-        if(this.nume.equals(a.nume) && this.prenume.equals(a.prenume))
+        if(this.getNume().equals(a.getNume()) && this.getPrenume().equals(a.getPrenume()))
             return  true;
 
         return false;

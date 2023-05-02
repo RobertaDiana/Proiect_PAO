@@ -39,13 +39,13 @@ public class AbonamentRepository {
     }
 
     public void addAbonament(String tipAbonament, LocalDate dataCreare, String status) {
-        String insertEdituraSql = "INSERT INTO EDITURA(tipAbonament, dataCreare, status) VALUES(\""
+        String insertAbonamentSql = "INSERT INTO ABONAMENT(tipAbonament, dataCreare, status) VALUES(\""
                 + tipAbonament + "\"" + dataCreare + "\"" + status + "\");";
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 
         try (Statement stmt = connection.createStatement()) {
-            stmt.executeUpdate(insertEdituraSql);
+            stmt.executeUpdate(insertAbonamentSql);
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -37,13 +37,13 @@ public class CategorieRepository {
     }
 
     public void addCategorie(String nume) {
-        String insertEdituraSql = "INSERT INTO CATEGORIE(nume) VALUES(\""
+        String insertCategorieSql = "INSERT INTO CATEGORIE(nume) VALUES(\""
                 + nume + "\");";
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 
         try (Statement stmt = connection.createStatement()) {
-            stmt.executeUpdate(insertEdituraSql);
+            stmt.executeUpdate(insertCategorieSql);
         } catch (SQLException e) {
             e.printStackTrace();
         }

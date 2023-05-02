@@ -3,11 +3,11 @@ import java.time.LocalDate;
 
 public class Persoana {
 
-    protected int id;
-    protected String nume;
-    protected String prenume;
-    protected LocalDate dataNastere;
-    protected String gen;
+    private int id;
+    private String nume;
+    private String prenume;
+    private LocalDate dataNastere;
+    private String gen;
 
     //Constructori
     public Persoana(int id, String nume,String prenume, LocalDate dataNastere,String gen){
