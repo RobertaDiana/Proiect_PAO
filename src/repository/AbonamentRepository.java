@@ -22,7 +22,7 @@ public class AbonamentRepository {
                 "(idAbonament int PRIMARY KEY AUTO_INCREMENT, " +
                 "tipAbonament varchar(100), " +
                 "dataCreare date, " +
-                "status varchar(100); ";
+                "status varchar(100)); ";
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 
         try (Statement stmt = connection.createStatement()) {
@@ -31,23 +31,40 @@ public class AbonamentRepository {
             e.printStackTrace();
         }
     }
-    public void addData()
-    {
-        String selectSQL = "SELECT * FROM ABONAMENT;";
+
+
+    public int getMaxId(){
+
+        String selectMaxIdSQL = "select ifnull(max(idAbonament),0) from abonament;";
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
+
+        try (Statement stmt = connection.createStatement())
+        {
+            ResultSet resultSet = stmt.executeQuery(selectMaxIdSQL);
+
+            if (resultSet.next())
+                return resultSet.getInt(1) ;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return -1;
 
     }
 
-    public void addAbonament(String tipAbonament, LocalDate dataCreare, String status) {
-        String insertAbonamentSql = "INSERT INTO ABONAMENT(tipAbonament, dataCreare, status) VALUES(\""
-                + tipAbonament + "\"" + dataCreare + "\"" + status + "\");";
+    public boolean addAbonament(int id,String tipAbonament, LocalDate dataCreare, String status) {
+        String insertAbonamentSql = "INSERT INTO ABONAMENT(idAbonament,tipAbonament, dataCreare, status) VALUES("
+                + id +",\""+ tipAbonament + "\",\"" + dataCreare + "\",\"" + status + "\");";
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 
         try (Statement stmt = connection.createStatement()) {
             stmt.executeUpdate(insertAbonamentSql);
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
     public void displayAbonament()

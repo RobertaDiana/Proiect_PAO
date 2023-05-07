@@ -5,6 +5,11 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import models.Categorie;
+import models.Editura;
 
 public class EdituraRepository {
 
@@ -20,7 +25,7 @@ public class EdituraRepository {
     public void createTable() {
         String createTableSql = "CREATE TABLE IF NOT EXISTS EDITURA " +
                 "(idEditura int PRIMARY KEY AUTO_INCREMENT, " +
-                "denumire varchar(100); ";
+                "denumire varchar(100)); ";
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 
         try (Statement stmt = connection.createStatement()) {
@@ -29,24 +34,82 @@ public class EdituraRepository {
             e.printStackTrace();
         }
     }
-    public void addData()
-    {
-        String selectSQL = "SELECT * FROM EDITURA;";
+
+
+    public Editura find(int id){
+
+        String selectSql = "select * from editura where id ="+id+";";
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
+
+        try (Statement stmt = connection.createStatement())
+        {
+            ResultSet resultSet = stmt.executeQuery(selectSql);
+            if (resultSet.next())
+            {
+                String denumire = resultSet.getString(2);
+                Editura e=new Editura(id,denumire);
+                return e;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public int findByName (String str){
+        String selectIdSQL = "select ifnull(idEditura,-1) from editura " +
+                "where upper(denumire)  =\""+ str.toUpperCase() +"\";";
+        Connection connection = DatabaseConfiguration.getDatabaseConnection();
+
+        try (Statement stmt = connection.createStatement())
+        {
+            ResultSet resultSet = stmt.executeQuery(selectIdSQL);
+
+            if (resultSet.next())
+                return resultSet.getInt(1) ;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return -1;
+    }
+
+
+    public int getMaxId(){
+
+        String selectMaxIdSQL = "select ifnull(max(idEditura),0) from editura;";
+        Connection connection = DatabaseConfiguration.getDatabaseConnection();
+
+        try (Statement stmt = connection.createStatement())
+        {
+            ResultSet resultSet = stmt.executeQuery(selectMaxIdSQL);
+
+            if (resultSet.next())
+                return resultSet.getInt(1) ;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return -1;
 
     }
 
-    public void addEditura(String denumire) {
-        String insertEdituraSql = "INSERT INTO EDITURA(denumire) VALUES(\""
-                + denumire + "\");";
+
+    public boolean addEditura(int id ,String denumire) {
+        String insertEdituraSql = "INSERT INTO EDITURA(idEditura,denumire) VALUES("
+                + id + " , \"" + denumire + "\");";
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 
         try (Statement stmt = connection.createStatement()) {
             stmt.executeUpdate(insertEdituraSql);
+            return  true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
     public void displayEditura()
     {
@@ -61,7 +124,7 @@ public class EdituraRepository {
             while (resultSet.next())
             {
                 empty = false;
-                System.out.println("Editura: " + resultSet.getString(2));
+                System.out.println(new Editura(resultSet.getInt(1),resultSet.getString(2)));
                 System.out.println();
             }
 

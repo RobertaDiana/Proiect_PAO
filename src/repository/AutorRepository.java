@@ -5,6 +5,7 @@ import models.Autor;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.*;
 
 public class AutorRepository {
     private static AutorRepository autorRepository;
@@ -15,6 +16,57 @@ public class AutorRepository {
         return autorRepository;
     }
 
+    public Set<Autor> findRange(List<Integer> ids){
+        String idsAsString=String.join(",", ids.stream().map(Object::toString).toArray(String[]::new));//separa fiecare id sin lista folosind ,
+        String selectSql = "select * from autor where id in ("+ idsAsString+");";
+
+        Connection connection = DatabaseConfiguration.getDatabaseConnection();
+        Set<Autor> autori= new HashSet<Autor>();
+
+
+        try (Statement stmt = connection.createStatement())
+        {
+            ResultSet resultSet = stmt.executeQuery(selectSql);
+            while (resultSet.next())
+            {
+
+                int id= resultSet.getInt(1);
+                String nume = resultSet.getString(2);
+                String prenume = resultSet.getString(3);
+                LocalDate date = resultSet.getDate(4).toLocalDate();
+                String gen= resultSet.getString(5);
+                int nr= resultSet.getInt(6);
+
+                Autor a=new Autor(id,nume,prenume,date,gen,nr);
+                autori.add(a);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return  null;
+        }
+        return autori;
+    }
+
+    public int findByName (String autorStr){
+        String selectIdSQL = "select ifnull(id,-1) from autor " +
+                "where upper((nume , ' ' , prenume))  =\""+ autorStr +"\";";
+        Connection connection = DatabaseConfiguration.getDatabaseConnection();
+
+
+        try (Statement stmt = connection.createStatement())
+        {
+            ResultSet resultSet = stmt.executeQuery(selectIdSQL);
+
+            if (resultSet.next())
+                return resultSet.getInt(1) ;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
     public void createTable() {
         String createTableSql = "CREATE TABLE IF NOT EXISTS AUTOR " +
                 "(id int PRIMARY KEY AUTO_INCREMENT, " +
@@ -22,7 +74,7 @@ public class AutorRepository {
                 "prenume varchar(100), " +
                 "dataNastere date, " +
                 "gen varchar(100), " +
-                "nrCartiScrise int; ";
+                "nrCartiScrise int); ";
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 
         try (Statement stmt = connection.createStatement()) {
@@ -31,23 +83,38 @@ public class AutorRepository {
             e.printStackTrace();
         }
     }
-    public void addData()
-    {
-        String selectSQL = "SELECT * FROM AUTOR;";
+
+    public int getMaxId(){
+
+       String selectMaxIdSQL = "select ifnull(max(id),0) from autor;";
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 
-    }
+        try (Statement stmt = connection.createStatement())
+        {
+            ResultSet resultSet = stmt.executeQuery(selectMaxIdSQL);
 
-    public void addAutor(String nume, String prenume, LocalDate dataNastere, String gen, int nrCartiScrise) {
-        String insertAutorSql = "INSERT INTO PERSOANA(nume, prenume, dataNastere, gen, nrCartiScrise) VALUES(\""
-                + nume + "\"" + prenume + "\"" + dataNastere + "\"" + gen + "\"" + nrCartiScrise + "\");";
+            if (resultSet.next())
+                return resultSet.getInt(1) ;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return -1;
+
+    }
+    public boolean addAutor(int id, String nume, String prenume, LocalDate dataNastere, String gen, int nrCartiScrise) {
+        String insertAutorSql = "INSERT INTO AUTOR(id,nume, prenume, dataNastere, gen, nrCartiScrise) VALUES("+
+                id+ ",\"" + nume + "\" , \"" + prenume + "\" , \"" + dataNastere + "\" , \"" + gen + "\" , " + nrCartiScrise + ");";
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 
         try (Statement stmt = connection.createStatement()) {
             stmt.executeUpdate(insertAutorSql);
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
     public void displayAutor()
@@ -63,12 +130,15 @@ public class AutorRepository {
             while (resultSet.next())
             {
                 empty = false;
-                System.out.println("Nume: " + resultSet.getString(2));
-                System.out.println("Prenume : " + resultSet.getString(3));
-                System.out.println("Data nastere : " + resultSet.getDate(4));
-                System.out.println("Gen: " + resultSet.getString(5));
-                System.out.println("Numarul de carti scrise: " + resultSet.getInt(6));
-                System.out.println();
+                int id= resultSet.getInt(1);
+                String nume = resultSet.getString(2);
+                String prenume = resultSet.getString(3);
+                LocalDate date = resultSet.getDate(4).toLocalDate();
+                String gen= resultSet.getString(5);
+                int nr= resultSet.getInt(6);
+
+                Autor a=new Autor(id,nume,prenume,date,gen,nr);
+                System.out.println(a);
             }
 
             if (empty)
@@ -81,6 +151,8 @@ public class AutorRepository {
             e.printStackTrace();
         }
     }
+
+
 }
 
 

@@ -1,4 +1,6 @@
 import controler.Controler;
+import controler.ControlerDB;
+import repository.*;
 
 
 import java.util.Scanner;
@@ -6,29 +8,32 @@ import java.util.Scanner;
 public class ConsoleApplication {
     public static void main(String[] args) {
 
-        Controler.init();
+
+        Scanner sc = new Scanner(System.in);
+
+        ControlerDB controlerDB = ControlerDB.getInstance();
 
 
         while(true) {
 
             meniu();
 
-            Scanner sc = new Scanner(System.in);
             String comand = sc.next();
+
 
 
             switch (comand) {
                 case "a":
-                    Controler.adaugaCarte();
+                    controlerDB.adaugaCarte();
                     break;
                 case "b":
-                    Controler.adaugaCategorie();
+                    controlerDB.adaugaCategorie();
                     break;
                 case "c":
-                    Controler.adaugaEditura();
+                    controlerDB.adaugaEditura();
                     break;
                 case "d":
-                    Controler.adaugaAutor();
+                    controlerDB.adaugaAutor();
                     break;
                 case "e":
                     Controler.adaugaCititor();
@@ -36,25 +41,25 @@ public class ConsoleApplication {
 
 
                 case "f":
-                    Controler.afisareCarti();
+                    controlerDB.afisareCarti();
                     break;
                 case "g":
-                    Controler.afisareAdresa();
+                    controlerDB.afisareAdresa();
                     break;
                 case "h":
-                    Controler.afisareAbonamente();
+                    controlerDB.afisareAbonamente();
                     break;
                 case "i":
-                    Controler.afisareEditura();
+                    controlerDB.afisareEditura();
                     break;
                 case "j":
-                    Controler.afisareAutori();
+                    controlerDB.afisareAutori();
                     break;
                 case "k":
                     Controler.afisareCititori();
                     break;
                 case "l":
-                    Controler.afisareCategorie();
+                    controlerDB.afisareCategorie();
                     break;
 
 

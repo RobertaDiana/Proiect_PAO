@@ -1,10 +1,18 @@
 package repository;
 
 import database.DatabaseConfiguration;
+import models.Autor;
+import models.Categorie;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class CategorieRepository {
 
@@ -20,7 +28,7 @@ public class CategorieRepository {
     public void createTable() {
         String createTableSql = "CREATE TABLE IF NOT EXISTS CATEGORIE " +
                 "(idCategorie int PRIMARY KEY AUTO_INCREMENT, " +
-                "nume varchar(100); ";
+                "nume varchar(100)); ";
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 
         try (Statement stmt = connection.createStatement()) {
@@ -29,24 +37,86 @@ public class CategorieRepository {
             e.printStackTrace();
         }
     }
-    public void addData()
-    {
-        String selectSQL = "SELECT * FROM CATEGORIE;";
-        Connection connection = DatabaseConfiguration.getDatabaseConnection();
+    public List<Categorie> findRange(List<Integer> ids){
+        String idsAsString=String.join(",", ids.stream().map(Object::toString).toArray(String[]::new));//separa fiecare id sin lista folosind ,
+        String selectSql = "select * from autor where id in ("+ idsAsString+");";
 
+        Connection connection = DatabaseConfiguration.getDatabaseConnection();
+        List<Categorie> categori= new ArrayList<Categorie>();
+
+
+        try (Statement stmt = connection.createStatement())
+        {
+            ResultSet resultSet = stmt.executeQuery(selectSql);
+            while (resultSet.next())
+            {
+
+                int id= resultSet.getInt(1);
+                String denumire = resultSet.getString(2);
+
+                Categorie c=new Categorie(id,denumire);
+                categori.add(c);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return  null;
+        }
+        return categori;
     }
 
-    public void addCategorie(String nume) {
-        String insertCategorieSql = "INSERT INTO CATEGORIE(nume) VALUES(\""
-                + nume + "\");";
+    public int findByName (String str){
+        String selectIdSQL = "select ifnull(idCategorie,-1) from categorie " +
+                "where upper(nume)  =\""+ str.toUpperCase() +"\";";
+        Connection connection = DatabaseConfiguration.getDatabaseConnection();
+
+        try (Statement stmt = connection.createStatement())
+        {
+            ResultSet resultSet = stmt.executeQuery(selectIdSQL);
+
+            if (resultSet.next())
+                return resultSet.getInt(1) ;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return -1;
+    }
+
+    public int getMaxId(){
+
+
+
+        String selectMaxIdSQL = "select ifnull(max(idCategorie),0) from abonament;";
+        Connection connection = DatabaseConfiguration.getDatabaseConnection();
+
+        try (Statement stmt = connection.createStatement())
+        {
+            ResultSet resultSet = stmt.executeQuery(selectMaxIdSQL);
+
+            if (resultSet.next())
+                return resultSet.getInt(1) ;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return -1;
+
+    }
+    public boolean addCategorie(int id,String nume) {
+        String insertCategorieSql = "INSERT INTO CATEGORIE(idCategorie,nume) VALUES("+
+                id + ",\"" + nume + "\");";
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 
         try (Statement stmt = connection.createStatement()) {
             stmt.executeUpdate(insertCategorieSql);
+            return  true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
     public void displayCategorie()
     {
@@ -61,7 +131,7 @@ public class CategorieRepository {
             while (resultSet.next())
             {
                 empty = false;
-                System.out.println("Categorie: " + resultSet.getString(2));
+                System.out.println(new Categorie(resultSet.getInt(1), resultSet.getString(2)));
                 System.out.println();
             }
 

@@ -7,9 +7,9 @@ import java.sql.SQLException;
 public class DatabaseConfiguration
 {
 
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/my_schema";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/CarturestiDB";
     private static final String USER = "root";
-    private static final String PASSWORD = "1234";
+    private static final String PASSWORD = "01012002";
     private static Connection databaseConnection;
 
     private DatabaseConfiguration() { }
