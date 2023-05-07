@@ -1,6 +1,8 @@
 package repository;
 
 import database.DatabaseConfiguration;
+import models.Adresa;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,7 +22,7 @@ public class AdresaRepository {
     public void createTable() {
         String createTableSql = "CREATE TABLE IF NOT EXISTS ADRESA " +
                 "(idAdresa int PRIMARY KEY AUTO_INCREMENT, " +
-                "adresa varchar(100); ";
+                "adresa varchar(100)); ";
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 
         try (Statement stmt = connection.createStatement()) {
@@ -29,24 +31,41 @@ public class AdresaRepository {
             e.printStackTrace();
         }
     }
-    public void addData()
-    {
-        String selectSQL = "SELECT * FROM ADRESA;";
+
+    public int getMaxId(){
+
+        String selectMaxIdSQL = "select ifnull(max(idAdresa),0) from adresa";
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
+
+        try (Statement stmt = connection.createStatement())
+        {
+            ResultSet resultSet = stmt.executeQuery(selectMaxIdSQL);
+
+            if (resultSet.next())
+                return resultSet.getInt(1) ;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return -1;
 
     }
 
-    public void addDomain(String adresa) {
-        String insertAdresaSql = "INSERT INTO ADRESA(adresa) VALUES(\""
-                + adresa + "\");";
+
+    public boolean addAdresa(int id,String adresa) {
+        String insertAdresaSql = "INSERT INTO ADRESA(idAdresa,adresa) VALUES(" +
+                id + ",\"" + adresa + "\");";
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 
         try (Statement stmt = connection.createStatement()) {
             stmt.executeUpdate(insertAdresaSql);
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
     public void displayAdresa()
     {
@@ -61,7 +80,8 @@ public class AdresaRepository {
             while (resultSet.next())
             {
                 empty = false;
-                System.out.println("Adresa: " + resultSet.getString(2));
+                Adresa a=new Adresa(resultSet.getInt(1),resultSet.getString(2));
+                System.out.println(a);
                 System.out.println();
             }
 
@@ -76,4 +96,3 @@ public class AdresaRepository {
         }
     }
 }
-

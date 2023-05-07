@@ -2,6 +2,7 @@ package repository;
 
 import database.DatabaseConfiguration;
 import models.Autor;
+import models.Carte;
 import models.Categorie;
 import models.Editura;
 
@@ -10,8 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class CarteRepository {
     private  static CarteRepository carteRepository;
@@ -30,8 +31,8 @@ public class CarteRepository {
                 "autor varchar(100), " +
                 "categorie varchar(100), " +
                 "dataPublicarii int, " +
-                "editura varchar(100), " +
-                "imprumut Boolean; ";
+                "editura int, " +
+                "imprumut Boolean); ";
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 
@@ -41,24 +42,40 @@ public class CarteRepository {
             e.printStackTrace();
         }
     }
-    public void addData()
-    {
-        String selectSQL = "SELECT * FROM CARTE;";
+    public int getMaxId(){
+
+        String selectMaxIdSQL = "select ifnull(max(idCarte),0) from carte;";
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 
-    }
+        try (Statement stmt = connection.createStatement())
+        {
+            ResultSet resultSet = stmt.executeQuery(selectMaxIdSQL);
 
-    public void addCarte(String title, Autor autor, Categorie categorie, int dataPublicarii, Editura editura, Boolean imprumut) {
-        String insertCarteSql = "INSERT INTO CARTE(title, autor, categorie, dataPublicarii, editura, imprumut) VALUES(\""
-                + title + "\"" + autor + "\"" + categorie + "\"" + dataPublicarii + "\"" + editura + "\"" + imprumut + "\");";
+            if (resultSet.next())
+                return resultSet.getInt(1) ;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return -1;
+
+    }
+    public boolean addCarte(int id,String title, List<Integer> idsAutor, List<Integer> idsEdituri, int anPublicare, int idEditura, Boolean imprumut) {
+        String autoriStr = String.join(",", idsAutor.stream().map(Object::toString).toArray(String[]::new));
+        String categoriStr = String.join(",", idsEdituri.stream().map(Object::toString).toArray(String[]::new)) ;
+        String insertCarteSql = "INSERT INTO CARTE(idCarte,title, autor, categorie, dataPublicarii, editura, imprumut) VALUES("
+                +id +",\"" + title + "\", \"" + autoriStr + "\",\"" + categoriStr + "\", " + anPublicare + "," + idEditura + "," + imprumut + ");";
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 
         try (Statement stmt = connection.createStatement()) {
             stmt.executeUpdate(insertCarteSql);
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
     public void displayCarte()
     {
@@ -72,14 +89,36 @@ public class CarteRepository {
             ResultSet resultSet = stmt.executeQuery(selectSql);
             while (resultSet.next())
             {
+                SortedSet<Carte> carti = new TreeSet<Carte>();
                 empty = false;
-                System.out.println("Title: " + resultSet.getString(2));
-                System.out.println("Autor : " + resultSet.getString(3));
-                System.out.println("Categorie: " + resultSet.getString(4));
-                System.out.println("Data Publicarii: " + resultSet.getInt(5));
-                System.out.println("Editura: " + resultSet.getString(6));
-                System.out.println("Imprumut: " + resultSet.getBoolean(7));
-                System.out.println();
+                int id= resultSet.getInt(1);
+                String titlu = resultSet.getString(2);
+                String idsAutoriStr= resultSet.getString(3);
+                String idsCategoriStr= resultSet.getString(4);
+                int anPublicare = resultSet.getInt(5);
+                int idEditura = resultSet.getInt(6);
+                boolean imprumut = resultSet.getBoolean(7);
+
+                List<Integer> idsAutoriInt= Arrays.stream(idsAutoriStr.split(","))
+                        .map(Integer::parseInt)
+                        .collect(Collectors.toList());
+
+                List<Integer> idsCategoriInt= Arrays.stream(idsCategoriStr.split(","))
+                        .map(Integer::parseInt)
+                        .collect(Collectors.toList());
+
+
+
+                Set<Autor> autori = AutorRepository.getInstance().findRange(idsAutoriInt);
+                List<Categorie> categori = CategorieRepository.getInstance().findRange(idsCategoriInt);
+                Editura editura = EdituraRepository.getInstance().find(idEditura);
+
+                Carte c = new Carte(id,titlu,autori,categori,anPublicare,editura,imprumut);
+                carti.add(c);
+
+                for (Carte carte:carti){
+                    System.out.println(carte);
+                }
             }
 
             if (empty)

@@ -1,4 +1,6 @@
 import controler.Controler;
+import controler.ControlerDB;
+import repository.*;
 
 
 import java.util.Scanner;
@@ -6,29 +8,32 @@ import java.util.Scanner;
 public class ConsoleApplication {
     public static void main(String[] args) {
 
-        Controler.init();
+
+        Scanner sc = new Scanner(System.in);
+
+        ControlerDB controlerDB = ControlerDB.getInstance();
 
 
         while(true) {
 
             meniu();
 
-            Scanner sc = new Scanner(System.in);
             String comand = sc.next();
+
 
 
             switch (comand) {
                 case "a":
-                    Controler.adaugaCarte();
+                    controlerDB.adaugaCarte();
                     break;
                 case "b":
-                    Controler.adaugaCategorie();
+                    controlerDB.adaugaCategorie();
                     break;
                 case "c":
-                    Controler.adaugaEditura();
+                    controlerDB.adaugaEditura();
                     break;
                 case "d":
-                    Controler.adaugaAutor();
+                    controlerDB.adaugaAutor();
                     break;
                 case "e":
                     Controler.adaugaCititor();
@@ -36,39 +41,39 @@ public class ConsoleApplication {
 
 
                 case "f":
-                    Controler.afisareCarti();
+                    controlerDB.afisareCarti();
                     break;
                 case "g":
-                    Controler.afisareAdresa();
+                    controlerDB.afisareAdresa();
                     break;
                 case "h":
-                    Controler.afisareAbonamente();
+                    controlerDB.afisareAbonamente();
                     break;
                 case "i":
-                    Controler.afisareEditura();
+                    controlerDB.afisareEditura();
                     break;
                 case "j":
-                    Controler.afisareAutori();
+                    controlerDB.afisareAutori();
                     break;
                 case "k":
                     Controler.afisareCititori();
                     break;
                 case "l":
-                    Controler.afisareCategorie();
+                    controlerDB.afisareCategorie();
                     break;
 
 
-                case "m":
-                    Controler.ReturneazaCarte();
-                    break;
-                case "n":
-                    Controler.ImprumutaCarte();
-                    break;
-
-                case "o":
-
-                    Controler.anuleazaAbonament();
-                    break;
+//                case "m":
+//                    Controler.ReturneazaCarte();
+//                    break;
+//                case "n":
+//                    Controler.ImprumutaCarte();
+//                    break;
+//
+//                case "o":
+//
+//                    Controler.anuleazaAbonament();
+//                    break;
 
                 case "p":
                     return;
@@ -99,17 +104,17 @@ public class ConsoleApplication {
         System.out.println("e. Adauga cititor");
 
         System.out.println("f. Afisare carti");
-        System.out.println("g. Afisare adresa");
-        System.out.println("h. Afisare abonament");
+//        System.out.println("g. Afisare adresa");
+//        System.out.println("h. Afisare abonament");
         System.out.println("i. Afisare editura");
         System.out.println("j. Afisare autor");
         System.out.println("k. Afisare cititor");
         System.out.println("l. Afisare categorie");
 
-        System.out.println("m. Returneaza carte");
-        System.out.println("n. Imprumuta carte");
-
-        System.out.println("o. Anuleaza abonament");
+//        System.out.println("m. Returneaza carte");
+//        System.out.println("n. Imprumuta carte");
+//
+//        System.out.println("o. Anuleaza abonament");
 
         System.out.println("p. Exit");
 
