@@ -1,5 +1,6 @@
 package repository;
 
+import csv.ReadWrite;
 import database.DatabaseConfiguration;
 import models.Autor;
 
@@ -153,4 +154,29 @@ public class AutorRepository {
     }
 
 
+    public void addData() {
+        String selectSql = "SELECT * FROM AUTOR;";
+
+        Connection connection = DatabaseConfiguration.getDatabaseConnection();
+
+        try (Statement stmt = connection.createStatement())
+        {
+            ResultSet resultSet = stmt.executeQuery(selectSql);
+
+            // daca tabelul este gol se vor adauga date din CSV
+            if (!resultSet.next())
+            {
+                List<Autor> autori = ReadWrite.readAutor();
+
+                for (Autor au : autori)
+                {
+                    addAutor(au.getId(), au.getNume(), au.getPrenume(), au.getDataNastere(), au.getGen(), au.getNrCartiScrise());
+                }
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
 }

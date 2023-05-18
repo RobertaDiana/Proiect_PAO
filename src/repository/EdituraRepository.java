@@ -1,5 +1,6 @@
 package repository;
 
+import csv.ReadWrite;
 import database.DatabaseConfiguration;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -131,6 +132,32 @@ public class EdituraRepository {
             if (empty)
             {
                 System.out.println("Nu exista!");
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void addData() {
+        String selectSql = "SELECT * FROM EDITURA;";
+
+        Connection connection = DatabaseConfiguration.getDatabaseConnection();
+
+        try (Statement stmt = connection.createStatement())
+        {
+            ResultSet resultSet = stmt.executeQuery(selectSql);
+
+            // daca tabelul este gol se vor adauga date din CSV
+            if (!resultSet.next())
+            {
+                List<Editura> edituri = ReadWrite.readEditura();
+
+                for (Editura e : edituri)
+                {
+                    addEditura(e.getIdEditura(), e.getDenumire());
+                }
             }
         }
         catch (SQLException e)

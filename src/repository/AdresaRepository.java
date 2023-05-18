@@ -1,12 +1,15 @@
 package repository;
 
+import csv.ReadWrite;
 import database.DatabaseConfiguration;
 import models.Adresa;
+import models.Autor;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 
 public class AdresaRepository {
@@ -88,6 +91,33 @@ public class AdresaRepository {
             if (empty)
             {
                 System.out.println("Nu exista!");
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void addData() {
+
+        String selectSql = "SELECT * FROM ADRESA;";
+
+        Connection connection = DatabaseConfiguration.getDatabaseConnection();
+
+        try (Statement stmt = connection.createStatement())
+        {
+            ResultSet resultSet = stmt.executeQuery(selectSql);
+
+            // daca tabelul este gol se vor adauga date din CSV
+            if (!resultSet.next())
+            {
+                List<Adresa> adrese = ReadWrite.readAdresa();
+
+                for (Adresa ad : adrese)
+                {
+                    addAdresa(ad.getIdAdresa(), ad.getAdresa());
+                }
             }
         }
         catch (SQLException e)

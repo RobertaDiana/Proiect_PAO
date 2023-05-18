@@ -1,5 +1,6 @@
 package repository;
 
+import csv.ReadWrite;
 import database.DatabaseConfiguration;
 import models.Autor;
 import models.Categorie;
@@ -138,6 +139,32 @@ public class CategorieRepository {
             if (empty)
             {
                 System.out.println("Nu exista!");
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void addData() {
+        String selectSql = "SELECT * FROM CATEGORIE;";
+
+        Connection connection = DatabaseConfiguration.getDatabaseConnection();
+
+        try (Statement stmt = connection.createStatement())
+        {
+            ResultSet resultSet = stmt.executeQuery(selectSql);
+
+            // daca tabelul este gol se vor adauga date din CSV
+            if (!resultSet.next())
+            {
+                List<Categorie> categorii = ReadWrite.readCategorie();
+
+                for (Categorie c : categorii)
+                {
+                    addCategorie(c.getIdCategorie(), c.getNume());
+                }
             }
         }
         catch (SQLException e)
