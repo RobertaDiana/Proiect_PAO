@@ -86,7 +86,7 @@ public class AutorRepository {
 
     public int getMaxId(){
 
-       String selectMaxIdSQL = "select ifnull(max(id),0) from autor;";
+        String selectMaxIdSQL = "select ifnull(max(id),0) from autor;";
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 
         try (Statement stmt = connection.createStatement())
@@ -154,5 +154,3 @@ public class AutorRepository {
 
 
 }
-
-

@@ -38,7 +38,7 @@ public class EdituraRepository {
 
     public Editura find(int id){
 
-        String selectSql = "select * from editura where id ="+id+";";
+        String selectSql = "select * from editura where idEditura ="+id+";";
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 
         try (Statement stmt = connection.createStatement())

@@ -1,6 +1,10 @@
 package repository;
 
+import audit.AuditService;
 import database.DatabaseConfiguration;
+import models.Abonament;
+import models.Editura;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -32,10 +36,45 @@ public class AbonamentRepository {
         }
     }
 
+    public Abonament find(int id){
+
+        String selectSql = "select * from abonament where idAbonament ="+id+";";
+        Connection connection = DatabaseConfiguration.getDatabaseConnection();
+
+        try (Statement stmt = connection.createStatement())
+        {
+            ResultSet resultSet = stmt.executeQuery(selectSql);
+            if (resultSet.next())
+            {
+                String tip=  resultSet.getString(2);
+                LocalDate date = resultSet.getDate(3).toLocalDate();
+                String status= resultSet.getString(4);
+                Abonament a= new Abonament(id,tip,date,status);
+                return a;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    public void delete(int id){
+        String deleteSql = "delete from abonament where idAbonament ="+id+";";
+        Connection connection = DatabaseConfiguration.getDatabaseConnection();
+        try (Statement stmt = connection.createStatement())
+        {
+            stmt.executeUpdate(deleteSql);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public int getMaxId(){
 
         String selectMaxIdSQL = "select ifnull(max(idAbonament),0) from abonament;";
+
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 
         try (Statement stmt = connection.createStatement())
@@ -80,9 +119,12 @@ public class AbonamentRepository {
             while (resultSet.next())
             {
                 empty = false;
-                System.out.println("Abonament: " + resultSet.getString(2));
-                System.out.println("Data creare : " + resultSet.getDate(3));
-                System.out.println("Status: " + resultSet.getString(4));
+                int id=resultSet.getInt(1);
+                String tip=  resultSet.getString(2);
+                LocalDate date = resultSet.getDate(3).toLocalDate();
+                String status= resultSet.getString(4);
+                Abonament a= new Abonament(id,tip,date,status);
+                System.out.println(a);
                 System.out.println();
             }
 

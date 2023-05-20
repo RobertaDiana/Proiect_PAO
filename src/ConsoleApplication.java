@@ -13,14 +13,9 @@ public class ConsoleApplication {
 
         ControlerDB controlerDB = ControlerDB.getInstance();
 
-
         while(true) {
-
             meniu();
-
             String comand = sc.next();
-
-
 
             switch (comand) {
                 case "a":
@@ -36,7 +31,7 @@ public class ConsoleApplication {
                     controlerDB.adaugaAutor();
                     break;
                 case "e":
-                    Controler.adaugaCititor();
+                    controlerDB.adaugaCititor();
                     break;
 
 
@@ -56,23 +51,21 @@ public class ConsoleApplication {
                     controlerDB.afisareAutori();
                     break;
                 case "k":
-                    Controler.afisareCititori();
+                    controlerDB.afisareCititori();
                     break;
                 case "l":
                     controlerDB.afisareCategorie();
                     break;
 
-
                 case "m":
-                    Controler.ReturneazaCarte();
+                    controlerDB.ReturneazaCarte();
                     break;
                 case "n":
-                    Controler.ImprumutaCarte();
+                    controlerDB.ImprumutaCarte();
                     break;
 
                 case "o":
-
-                    Controler.anuleazaAbonament();
+                    controlerDB.anuleazaAbonament();
                     break;
 
                 case "p":

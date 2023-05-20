@@ -39,7 +39,7 @@ public class CategorieRepository {
     }
     public List<Categorie> findRange(List<Integer> ids){
         String idsAsString=String.join(",", ids.stream().map(Object::toString).toArray(String[]::new));//separa fiecare id sin lista folosind ,
-        String selectSql = "select * from autor where id in ("+ idsAsString+");";
+        String selectSql = "select * from categorie where idCategorie in ("+ idsAsString+");";
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
         List<Categorie> categori= new ArrayList<Categorie>();
@@ -87,7 +87,7 @@ public class CategorieRepository {
 
 
 
-        String selectMaxIdSQL = "select ifnull(max(idCategorie),0) from abonament;";
+        String selectMaxIdSQL = "select ifnull(max(idCategorie),0) from categorie;";
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 
         try (Statement stmt = connection.createStatement())
@@ -104,9 +104,9 @@ public class CategorieRepository {
         return -1;
 
     }
-    public boolean addCategorie(int id,String nume) {
+    public boolean addCategorie(int idCategorie,String nume) {
         String insertCategorieSql = "INSERT INTO CATEGORIE(idCategorie,nume) VALUES("+
-                id + ",\"" + nume + "\");";
+                idCategorie + ",\"" + nume + "\");";
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 
@@ -146,4 +146,3 @@ public class CategorieRepository {
         }
     }
 }
-

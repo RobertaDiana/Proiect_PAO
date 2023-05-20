@@ -2,6 +2,7 @@ package repository;
 
 import database.DatabaseConfiguration;
 import models.Adresa;
+import models.Editura;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -53,6 +54,26 @@ public class AdresaRepository {
     }
 
 
+    public Adresa find(int id){
+
+        String selectSql = "select * from adresa where idAdresa ="+id+";";
+        Connection connection = DatabaseConfiguration.getDatabaseConnection();
+
+        try (Statement stmt = connection.createStatement())
+        {
+            ResultSet resultSet = stmt.executeQuery(selectSql);
+            if (resultSet.next())
+            {
+                String denumire = resultSet.getString(2);
+                Adresa a=new Adresa(id,denumire);
+                return a;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public boolean addAdresa(int id,String adresa) {
         String insertAdresaSql = "INSERT INTO ADRESA(idAdresa,adresa) VALUES(" +
                 id + ",\"" + adresa + "\");";
@@ -96,4 +117,3 @@ public class AdresaRepository {
         }
     }
 }
-

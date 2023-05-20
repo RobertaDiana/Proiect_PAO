@@ -32,10 +32,10 @@ public class AuditService {
         return auditService;
     }
 
-    public void logAction(String action) throws IOException
+    public void logAction(String tableName,String action) throws IOException
     {
-        //si clasa
-        //sorted set pt sortare
+        writer.append(tableName);
+        writer.append(",");
         writer.append(action);
         writer.append(",");
         writer.append(formatter.format(LocalDateTime.now()));

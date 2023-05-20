@@ -15,6 +15,7 @@ public class  ControlerDB {
     private static EdituraRepository edituraRepository;
     private static CategorieRepository categorieRepository;
     private static CarteRepository carteRepository;
+    private static CititorRepository cititorRepository;
     private ControlerDB(){
         abonamentRepository=AbonamentRepository.getInstance();
         abonamentRepository.createTable();//creez tabelul
@@ -33,6 +34,9 @@ public class  ControlerDB {
 
         carteRepository=CarteRepository.getInstance();
         carteRepository.createTable();
+
+        cititorRepository=CititorRepository.getInstance();
+        cititorRepository.createTable();
     }
 
     public static ControlerDB getInstance(){
@@ -73,7 +77,7 @@ public class  ControlerDB {
         return adresa;
 
     }
-    public static Autor adaugaAutor(){
+    public  Autor adaugaAutor(){
         Scanner reader= new Scanner(System.in);
 
         int id= autorRepository.getMaxId()+1;
@@ -99,7 +103,7 @@ public class  ControlerDB {
 
         return new Autor(id,Nume,Prenume,DataNasterii,gen,nrCartiScrise) ;
     }
-    public static Editura adaugaEditura(){
+    public  Editura adaugaEditura(){
         Scanner reader= new Scanner(System.in);
         int idEditura= edituraRepository.getMaxId();
 
@@ -112,7 +116,7 @@ public class  ControlerDB {
             return null;
         return new Editura(idEditura, edituraNume);
     }
-    public static Categorie adaugaCategorie(){
+    public  Categorie adaugaCategorie(){
 
         Scanner reader= new Scanner(System.in);
 
@@ -127,8 +131,7 @@ public class  ControlerDB {
 
         return new Categorie(idCategorie,categorieNume);
     }
-
-    public static void adaugaCarte() {
+    public  void adaugaCarte() {
         Scanner reader= new Scanner(System.in);
 
         int idCarte = carteRepository.getMaxId();
@@ -151,7 +154,7 @@ public class  ControlerDB {
                 if (!op.contentEquals("DA"))
                     continue;
 
-                Autor a = adaugaAutor();
+                Autor a = controler.adaugaAutor();
                 if (a!=null)
                 {
                     id=a.getId();
@@ -198,17 +201,50 @@ public class  ControlerDB {
         carteRepository.addCarte(idCarte,carteNume,idsAutori,idsCategori,anPublicare,idEditura,imp);
 
     }
+    public  void adaugaCititor(){
 
-    public  static void afisareCarti(){
+        Scanner reader= new Scanner(System.in);
+
+        int idCititor = cititorRepository.getMaxId();
+
+
+        System.out.println("Numele cititorului este: ");
+        String cititorNume= citireStr("Numele cititorului este: ").toUpperCase();
+
+        System.out.println("Prenumele cititorului este: ");
+        String cititorPrenume=citireStr("Prenumele cititorului este: ").toUpperCase();
+
+        System.out.println("Data nasterii este: ");
+        LocalDate cititorDataNasterii= CitireData("Data nasterii:");
+
+        System.out.println("Gen:  ");
+        String gen = reader.nextLine().toUpperCase();
+
+        int nrCartiCitite=0;
+
+        Adresa adresa=controler.adaugaAdresa();
+        int idAdresa=adresa.getIdAdresa();
+        Abonament abonament=controler.adaugaAbonament();
+        int idAbonament=abonament.getIdAbonament();
+
+        cititorRepository.addCititor(idCititor,cititorNume,cititorPrenume,cititorDataNasterii,gen,nrCartiCitite,idAdresa,"",idAbonament);
+    }
+    public  void afisareCititori(){
+        cititorRepository.displayCititor();
+    }
+
+
+
+    public   void afisareCarti(){
         carteRepository.displayCarte();
     }
-    public static void afisareCategorie(){
+    public  void afisareCategorie(){
         categorieRepository.displayCategorie();
     }
-    public static void afisareEditura(){
+    public  void afisareEditura(){
         edituraRepository.displayEditura();
     }
-    public static void afisareAutori(){
+    public  void afisareAutori(){
         autorRepository.displayAutor();
     }
     public  void afisareAbonamente(){
@@ -219,8 +255,108 @@ public class  ControlerDB {
     }
 
 
+    public  void anuleazaAbonament(){
+        System.out.println("Introduceti id-ul cititorului");
+        int idCititor = CitireInt("Introduceti id-ul cititorului");
+        Cititor cititor = cititorRepository.find(idCititor);
 
-    private static  LocalDate CitireData(String info){
+        if(cititor==null) {
+            System.out.println("nu exista acest cititor");
+            return;
+        }
+        Abonament a= cititor.getAbonament();
+        cititorRepository.update(idCititor,null);
+        if (a==null)
+        {
+            System.out.println("acest cititor nu are abonament");
+            return;
+        }
+        abonamentRepository.delete(a.getIdAbonament());
+
+    }
+
+
+
+    public void ImprumutaCarte(){
+        System.out.println("Introduceti id-ul cartii");
+        int idCarte = CitireInt("Introduceti id-ul cartii");
+
+        System.out.println("Introduceti id-ul cititorului");
+        int idCititor = CitireInt("Introduceti id-ul cititorului");
+
+        List<Carte> carti= carteRepository.getRange(Integer.toString(idCarte));
+        if(carti.isEmpty()){
+            System.out.println("nu exista cartea aceasta");
+            return;
+        }
+        Carte carte=carti.get(0);
+        if(carte.getImprumut()==true){
+            System.out.println("carte nu e disponibila");
+            return;
+        }
+
+        Cititor cititor = cititorRepository.find(idCititor);
+
+        if(cititor==null) {
+            System.out.println("nu exista acest cititor");
+            return;
+        }
+        cititor.ImprumutaCarte(carte);
+        carte.setImprumut(true);
+
+        carteRepository.update(carte.getIdCarte(),true);
+
+        String ids = "";
+        for (Carte c:cititor.getCarti()) {
+            if (ids.contentEquals(""))
+                ids=ids+c.getIdCarte();
+            else{
+                ids=ids+","+c.getIdCarte();
+            }
+        }
+        cititorRepository.updateCarti(idCititor,ids);
+    }
+
+
+    public   void ReturneazaCarte(){
+        System.out.println("Introduceti id-ul cartii");
+        int idCarte = CitireInt("Introduceti id-ul cartii");
+
+        System.out.println("Introduceti id-ul cititorului");
+        int idCititor = CitireInt("Introduceti id-ul cititorului");
+
+        List<Carte> carti= carteRepository.getRange(Integer.toString(idCarte));
+        if(carti.isEmpty()){
+            System.out.println("nu exista cartea aceasta");
+            return;
+        }
+        Carte carte=carti.get(0);
+
+
+        Cititor cititor = cititorRepository.find(idCititor);
+        if(cititor==null) {
+            System.out.println("nu exista acest cititor");
+            return;
+        }
+        cititor.ReturneazaCarte(carte);
+        carte.setImprumut(false);
+
+
+        carteRepository.update(carte.getIdCarte(),false);
+
+        String ids = "";
+        for (Carte c:cititor.getCarti()) {
+            if (ids.contentEquals(""))
+                ids=ids+c.getIdCarte();
+            else{
+                ids=ids+","+c.getIdCarte();
+            }
+        }
+        cititorRepository.updateCarti(idCititor,ids);
+
+    }
+
+    private   LocalDate CitireData(String info){
         LocalDate date;
         Scanner reader= new Scanner(System.in);
         while(true)
@@ -240,7 +376,7 @@ public class  ControlerDB {
     }
 
 
-    private static int CitireInt(String info){
+    private  int CitireInt(String info){
         int nr=0;
         Scanner reader= new Scanner(System.in);
         while(true)
@@ -259,7 +395,7 @@ public class  ControlerDB {
         return nr;
     }
 
-    private static String citireStr(String info){
+    private  String citireStr(String info){
         String  str;
         Scanner reader= new Scanner(System.in);
         while(true)
