@@ -49,7 +49,7 @@ public class AutorRepository {
 
     public int findByName (String autorStr){
         String selectIdSQL = "select ifnull(id,-1) from autor " +
-                "where upper((nume , ' ' , prenume))  =\""+ autorStr +"\";";
+                "where upper(concat(nume , ' ' , prenume))  =\""+ autorStr +"\";";
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 
 

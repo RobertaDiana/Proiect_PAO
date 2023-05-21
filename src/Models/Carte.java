@@ -1,10 +1,11 @@
 
 package models;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
-public class Carte {
+public class Carte implements  Comparable{
     private int idCarte;
     private String title;
     private Set<Autor> autor;
@@ -129,6 +130,17 @@ public class Carte {
     }
 
 
+    @Override
+    public int compareTo(Object o) {
+        if (this==o)
+            return 0;
+
+        if (!(o instanceof Carte)) {
+            return -1;
+        }
+        Carte c = (Carte) o;
+        return this.getTitle().compareTo(c.getTitle());
+    }
 }
 
 
