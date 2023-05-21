@@ -1,8 +1,10 @@
 package repository;
 
+import audit.AuditService;
 import database.DatabaseConfiguration;
 import models.Autor;
 
+import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.*;
@@ -27,6 +29,11 @@ public class AutorRepository {
         try (Statement stmt = connection.createStatement())
         {
             ResultSet resultSet = stmt.executeQuery(selectSql);
+            try{
+                AuditService.getInstance().logAction("AUTOR","S-a returnat o lista cu autori" );
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             while (resultSet.next())
             {
 
@@ -41,6 +48,11 @@ public class AutorRepository {
                 autori.add(a);
             }
         } catch (SQLException e) {
+            try{
+                AuditService.getInstance().logAction("AUTOR","Eroare la returnarea unei liste cu autori");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
             return  null;
         }
@@ -56,11 +68,20 @@ public class AutorRepository {
         try (Statement stmt = connection.createStatement())
         {
             ResultSet resultSet = stmt.executeQuery(selectIdSQL);
-
+            try{
+                AuditService.getInstance().logAction("AUTOR","S-a gasit autorul cu numele respectiv");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             if (resultSet.next())
                 return resultSet.getInt(1) ;
 
         } catch (SQLException e) {
+            try{
+                AuditService.getInstance().logAction("AUTOR","Eroare la gasirea autorului cu numele respectiv");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
         }
 
@@ -79,7 +100,17 @@ public class AutorRepository {
 
         try (Statement stmt = connection.createStatement()) {
             stmt.execute(createTableSql);
+            try{
+                AuditService.getInstance().logAction("AUTOR","S-a creat tabela autor");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
         } catch (SQLException e) {
+            try{
+                AuditService.getInstance().logAction("AUTOR","Eroare la crearea tabelei autor");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
         }
     }
@@ -92,11 +123,20 @@ public class AutorRepository {
         try (Statement stmt = connection.createStatement())
         {
             ResultSet resultSet = stmt.executeQuery(selectMaxIdSQL);
-
+            try{
+                AuditService.getInstance().logAction("AUTOR","S-a gasit id-ul maxim");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             if (resultSet.next())
                 return resultSet.getInt(1) ;
 
         } catch (SQLException e) {
+            try{
+                AuditService.getInstance().logAction("AUTOR","Eroare la gasirea id-ului maxim");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
         }
 
@@ -111,8 +151,18 @@ public class AutorRepository {
 
         try (Statement stmt = connection.createStatement()) {
             stmt.executeUpdate(insertAutorSql);
+            try{
+                AuditService.getInstance().logAction("AUTOR","S-a adaugat un autor");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             return true;
         } catch (SQLException e) {
+            try{
+                AuditService.getInstance().logAction("AUTOR","Eroare la adaugarea unui autor");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
             return false;
         }
@@ -127,6 +177,7 @@ public class AutorRepository {
         {
             boolean empty = true;
             ResultSet resultSet = stmt.executeQuery(selectSql);
+
             while (resultSet.next())
             {
                 empty = false;
@@ -145,9 +196,20 @@ public class AutorRepository {
             {
                 System.out.println("Nu exista!");
             }
+
+            try{
+                AuditService.getInstance().logAction("AUTOR","S-au afisat toti autorii");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
         }
         catch (SQLException e)
         {
+            try{
+                AuditService.getInstance().logAction("AUTOR","Eroare la afisarea autorilor");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
         }
     }

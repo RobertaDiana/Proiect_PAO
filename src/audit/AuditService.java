@@ -17,7 +17,7 @@ public class AuditService {
     {
         try
         {
-            this.writer = new FileWriter("src\\main\\java\\com\\files\\audit.csv");
+            this.writer = new FileWriter("src\\audit.csv");
         }
         catch (IOException e)
         {
@@ -32,8 +32,7 @@ public class AuditService {
         return auditService;
     }
 
-    public void logAction(String tableName,String action) throws IOException
-    {
+    public void logAction(String tableName,String action) throws IOException    {
         writer.append(tableName);
         writer.append(",");
         writer.append(action);

@@ -1,11 +1,13 @@
 package repository;
 
+import audit.AuditService;
 import database.DatabaseConfiguration;
 import models.Abonament;
 import models.Adresa;
 import models.Carte;
 import models.Cititor;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -43,7 +45,18 @@ public class CititorRepository {
 
         try (Statement stmt = connection.createStatement()) {
             stmt.execute(createTableSql);
+            try{
+                AuditService.getInstance().logAction("CITITOR","S-a creat tabela Cititor");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
+
         } catch (SQLException e) {
+            try{
+                AuditService.getInstance().logAction("CITITOR","Eroare la crearea tabelei Cititor");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
         }
     }
@@ -56,10 +69,20 @@ public class CititorRepository {
         try (Statement stmt = connection.createStatement())
         {
             ResultSet resultSet = stmt.executeQuery(selectMaxIdSQL);
+            try{
+                AuditService.getInstance().logAction("CITITOR","S-a gasit id-ul maxim din tabela Cititor");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             if (resultSet.next())
                 return resultSet.getInt(1) ;
 
         } catch (SQLException e) {
+            try{
+                AuditService.getInstance().logAction("CITITOR","Eroare la gasirea id-ul maxim din tabela Cititor");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
         }
 
@@ -73,8 +96,18 @@ public class CititorRepository {
         try (Statement stmt = connection.createStatement())
         {
             stmt.executeUpdate(updateSql);
+            try{
+                AuditService.getInstance().logAction("CITITOR","S-a actualizat abonamentul unui cititor");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
 
         } catch (SQLException e) {
+            try{
+                AuditService.getInstance().logAction("CITIOR","Eroare la actualizarea abonamentului unui cititor");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
         }
     }
@@ -85,7 +118,17 @@ public class CititorRepository {
         try (Statement stmt = connection.createStatement())
         {
             stmt.executeUpdate(updateSql);
+            try{
+                AuditService.getInstance().logAction("CITITOR","S-au actualizat cartile unui cititor");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
         } catch (SQLException e) {
+            try{
+                AuditService.getInstance().logAction("CITITOR","Eroare la actualizarea cartilor unui cititor");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
         }
     }
@@ -96,7 +139,17 @@ public class CititorRepository {
 
         try (Statement stmt = connection.createStatement()) {
             stmt.executeUpdate(insertCititorSql);
+            try{
+                AuditService.getInstance().logAction("CITITOR","S-a adaugat un nou cititor");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
         } catch (SQLException e) {
+            try{
+                AuditService.getInstance().logAction("CITITOR","Eroare la adaugarea unui nou cititor");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
         }
     }
@@ -110,6 +163,11 @@ public class CititorRepository {
         {
             boolean empty = true;
             ResultSet resultSet = stmt.executeQuery(selectSql);
+            try{
+                AuditService.getInstance().logAction("CITITOR","Se afiseaza toti cititorii");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             while (resultSet.next())
             {
                 empty = false;
@@ -138,9 +196,15 @@ public class CititorRepository {
             {
                 System.out.println("Nu exista!");
             }
+
         }
         catch (SQLException e)
         {
+            try{
+                AuditService.getInstance().logAction("CITITOR","Eroare la afisarea cititorilor");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
         }
     }
@@ -154,6 +218,11 @@ public class CititorRepository {
         try (Statement stmt = connection.createStatement())
         {
             ResultSet resultSet = stmt.executeQuery(selectSql);
+            try{
+                AuditService.getInstance().logAction("CITITOR","Se selecteaza cititorul cu id-ul" + id);
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             if (resultSet.next())
             {
                 String nume = resultSet.getString(2);
@@ -178,7 +247,13 @@ public class CititorRepository {
 
         }
         catch (SQLException e)
+
         {
+            try{
+                AuditService.getInstance().logAction("CITITOR","Eroare la selectarea cititorului");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
         }
         return null;

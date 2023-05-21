@@ -1,6 +1,9 @@
 package repository;
 
+import audit.AuditService;
 import database.DatabaseConfiguration;
+
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,7 +33,17 @@ public class EdituraRepository {
 
         try (Statement stmt = connection.createStatement()) {
             stmt.execute(createTableSql);
+            try{
+                AuditService.getInstance().logAction("EDITURA","S-a creat tabela Editura");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
         } catch (SQLException e) {
+            try{
+                AuditService.getInstance().logAction("EDITURA","Eroare la crearea tabelei Editura");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
         }
     }
@@ -44,13 +57,25 @@ public class EdituraRepository {
         try (Statement stmt = connection.createStatement())
         {
             ResultSet resultSet = stmt.executeQuery(selectSql);
+            try{
+                AuditService.getInstance().logAction("EDITURA","S-a gasit editura cu id-ul" + id);
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             if (resultSet.next())
             {
                 String denumire = resultSet.getString(2);
                 Editura e=new Editura(id,denumire);
                 return e;
             }
+
+
         } catch (SQLException e) {
+            try{
+                AuditService.getInstance().logAction("EDITURA","Eroare la gasirea unei edituri");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
         }
         return null;
@@ -64,11 +89,20 @@ public class EdituraRepository {
         try (Statement stmt = connection.createStatement())
         {
             ResultSet resultSet = stmt.executeQuery(selectIdSQL);
-
+            try{
+                AuditService.getInstance().logAction("EDITURA","S-a gasit editura cu numele respectiv");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             if (resultSet.next())
                 return resultSet.getInt(1) ;
 
         } catch (SQLException e) {
+            try{
+                AuditService.getInstance().logAction("EDITURA","Eroare la gasirea editurii cu numele respectiv");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
         }
 
@@ -84,11 +118,20 @@ public class EdituraRepository {
         try (Statement stmt = connection.createStatement())
         {
             ResultSet resultSet = stmt.executeQuery(selectMaxIdSQL);
-
+            try{
+                AuditService.getInstance().logAction("EDITURA","S-a gasit id-ul maxim din tabela Editura");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             if (resultSet.next())
                 return resultSet.getInt(1) ;
 
         } catch (SQLException e) {
+            try{
+                AuditService.getInstance().logAction("EDITURA","Eroare la gasirea id-ul maxim din tabela Editura");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
         }
 
@@ -105,8 +148,18 @@ public class EdituraRepository {
 
         try (Statement stmt = connection.createStatement()) {
             stmt.executeUpdate(insertEdituraSql);
+            try{
+                AuditService.getInstance().logAction("EDITURA","S-a adaugat o editura");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             return  true;
         } catch (SQLException e) {
+            try{
+                AuditService.getInstance().logAction("EDITURA","Eroare la adaugarea unei edituri");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
         }
         return false;
@@ -121,6 +174,11 @@ public class EdituraRepository {
         {
             boolean empty = true;
             ResultSet resultSet = stmt.executeQuery(selectSql);
+            try{
+                AuditService.getInstance().logAction("EDITURA","Afisarea tuturor editurilor");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             while (resultSet.next())
             {
                 empty = false;
@@ -134,7 +192,11 @@ public class EdituraRepository {
             }
         }
         catch (SQLException e)
-        {
+            { try{
+                AuditService.getInstance().logAction("EDITURA","Eroare la afisarea tuturor editurilor");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
         }
     }

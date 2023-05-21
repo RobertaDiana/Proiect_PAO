@@ -1,9 +1,11 @@
 package repository;
 
+import audit.AuditService;
 import database.DatabaseConfiguration;
 import models.Autor;
 import models.Categorie;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -32,8 +34,18 @@ public class CategorieRepository {
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 
         try (Statement stmt = connection.createStatement()) {
+            try{
+                AuditService.getInstance().logAction("CATEGORIE","S-a creat tabela categorie");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             stmt.execute(createTableSql);
         } catch (SQLException e) {
+            try{
+                AuditService.getInstance().logAction("CATEGORIE","Eroare la crearea tabelei categorie");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
         }
     }
@@ -48,6 +60,11 @@ public class CategorieRepository {
         try (Statement stmt = connection.createStatement())
         {
             ResultSet resultSet = stmt.executeQuery(selectSql);
+            try{
+                AuditService.getInstance().logAction("CATEGORIE","S-a returnat o lista cu categorii");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             while (resultSet.next())
             {
 
@@ -58,6 +75,11 @@ public class CategorieRepository {
                 categori.add(c);
             }
         } catch (SQLException e) {
+            try{
+                AuditService.getInstance().logAction("CATEGORIE","Eroare la returnarea listelor cu categorii");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
             return  null;
         }
@@ -72,11 +94,20 @@ public class CategorieRepository {
         try (Statement stmt = connection.createStatement())
         {
             ResultSet resultSet = stmt.executeQuery(selectIdSQL);
-
+            try{
+                AuditService.getInstance().logAction("CATEGORIE","S-a gasit categoria dupa numele respectiv");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             if (resultSet.next())
                 return resultSet.getInt(1) ;
 
         } catch (SQLException e) {
+            try{
+                AuditService.getInstance().logAction("CATEGORIE","Eroare la gasirea categoriei");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
         }
 
@@ -93,11 +124,20 @@ public class CategorieRepository {
         try (Statement stmt = connection.createStatement())
         {
             ResultSet resultSet = stmt.executeQuery(selectMaxIdSQL);
-
+            try{
+                AuditService.getInstance().logAction("CATEGORIE","S-a gasit id-ul maxim din tabela Categorie");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             if (resultSet.next())
                 return resultSet.getInt(1) ;
 
         } catch (SQLException e) {
+            try{
+                AuditService.getInstance().logAction("CATEGORIE","Eroare la gasirea id-ul maxim din tabela Categorie");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
         }
 
@@ -112,8 +152,18 @@ public class CategorieRepository {
 
         try (Statement stmt = connection.createStatement()) {
             stmt.executeUpdate(insertCategorieSql);
+            try{
+                AuditService.getInstance().logAction("CATEGORIE","S-a adaugat o categorie");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             return  true;
         } catch (SQLException e) {
+            try{
+                AuditService.getInstance().logAction("CATEGORIE","Eroare la adaugarea unei categorii");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
         }
         return false;
@@ -128,6 +178,11 @@ public class CategorieRepository {
         {
             boolean empty = true;
             ResultSet resultSet = stmt.executeQuery(selectSql);
+            try{
+                AuditService.getInstance().logAction("CATEGORIE","S-au afisat toate categoriile");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             while (resultSet.next())
             {
                 empty = false;
@@ -142,6 +197,11 @@ public class CategorieRepository {
         }
         catch (SQLException e)
         {
+            try{
+                AuditService.getInstance().logAction("CATEGORIE","Eroare la afisarea categoriilor");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
         }
     }

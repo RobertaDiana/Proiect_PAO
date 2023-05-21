@@ -1,11 +1,13 @@
 package repository;
 
+import audit.AuditService;
 import database.DatabaseConfiguration;
 import models.Autor;
 import models.Carte;
 import models.Categorie;
 import models.Editura;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -38,7 +40,17 @@ public class CarteRepository {
 
         try (Statement stmt = connection.createStatement()) {
             stmt.execute(createTableSql);
+            try{
+                AuditService.getInstance().logAction("CARTE","S-a creat tabela Carte");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
         } catch (SQLException e) {
+            try{
+                AuditService.getInstance().logAction("CARTE","Eroare la crearea tabelei Carte");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
         }
     }
@@ -50,11 +62,20 @@ public class CarteRepository {
         try (Statement stmt = connection.createStatement())
         {
             ResultSet resultSet = stmt.executeQuery(selectMaxIdSQL);
-
+            try{
+                AuditService.getInstance().logAction("CARTE","S-a gasit id-ul maxim");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             if (resultSet.next())
                 return resultSet.getInt(1) ;
 
         } catch (SQLException e) {
+            try{
+                AuditService.getInstance().logAction("CARTE","Eroare la gasirea id-ului maxim");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
         }
 
@@ -71,8 +92,18 @@ public class CarteRepository {
 
         try (Statement stmt = connection.createStatement()) {
             stmt.executeUpdate(insertCarteSql);
+            try{
+                AuditService.getInstance().logAction("CARTE","S-a introdus o noua carte");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             return true;
         } catch (SQLException e) {
+            try{
+                AuditService.getInstance().logAction("CARTE","Eroare la introducerea unei noi carti");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
         }
         return false;
@@ -87,6 +118,11 @@ public class CarteRepository {
         {
             boolean empty = true;
             ResultSet resultSet = stmt.executeQuery(selectSql);
+            try{
+                AuditService.getInstance().logAction("CARTE","S-au afisat toate cartile");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             while (resultSet.next())
             {
                 SortedSet<Carte> carti = new TreeSet<Carte>();
@@ -136,6 +172,11 @@ public class CarteRepository {
         }
         catch (SQLException e)
         {
+            try{
+                AuditService.getInstance().logAction("CARTE","Eroare la afisarea cartilor");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
         }
     }
@@ -146,8 +187,18 @@ public class CarteRepository {
         try (Statement stmt = connection.createStatement())
         {
             stmt.executeUpdate(updateSql);
+            try{
+                AuditService.getInstance().logAction("CARTE","S-a actualizat starea unei carti");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
 
         } catch (SQLException e) {
+            try{
+                AuditService.getInstance().logAction("CARTE","Eroare la actualizarea starii unei carti");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
         }
     }
@@ -161,6 +212,11 @@ public class CarteRepository {
         try (Statement stmt = connection.createStatement())
         {
             ResultSet resultSet = stmt.executeQuery(selectSql);
+            try{
+                AuditService.getInstance().logAction("CARTE","Se afiseaza cartile");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             while (resultSet.next())
             {
                 int id= resultSet.getInt(1);
@@ -198,6 +254,11 @@ public class CarteRepository {
 
             }
         } catch (SQLException e) {
+            try{
+                AuditService.getInstance().logAction("CARTE","Eroare la afisarea cartilor");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
             return  null;
         }

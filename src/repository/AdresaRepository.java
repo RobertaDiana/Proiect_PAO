@@ -1,9 +1,11 @@
 package repository;
 
+import audit.AuditService;
 import database.DatabaseConfiguration;
 import models.Adresa;
 import models.Editura;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,7 +30,17 @@ public class AdresaRepository {
 
         try (Statement stmt = connection.createStatement()) {
             stmt.execute(createTableSql);
+            try{
+                AuditService.getInstance().logAction("ADRESA","S-a creat tabela Adresa");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
         } catch (SQLException e) {
+            try{
+                AuditService.getInstance().logAction("ADRESA","Eroare la crearea tabelei adresa");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
         }
     }
@@ -41,11 +53,21 @@ public class AdresaRepository {
         try (Statement stmt = connection.createStatement())
         {
             ResultSet resultSet = stmt.executeQuery(selectMaxIdSQL);
-
+            try{
+                AuditService.getInstance().logAction("ADRESA","S-a gasit id-ul maxim din tabela Adresa");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             if (resultSet.next())
                 return resultSet.getInt(1) ;
 
+
         } catch (SQLException e) {
+            try{
+                AuditService.getInstance().logAction("ADRESA","Eroare la gasirea id-ul maxim din tabela Adresa");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
         }
 
@@ -62,6 +84,11 @@ public class AdresaRepository {
         try (Statement stmt = connection.createStatement())
         {
             ResultSet resultSet = stmt.executeQuery(selectSql);
+            try{
+                AuditService.getInstance().logAction("ADRESA","S-a selectat abonamentul cu id-ul" +id);
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             if (resultSet.next())
             {
                 String denumire = resultSet.getString(2);
@@ -69,6 +96,11 @@ public class AdresaRepository {
                 return a;
             }
         } catch (SQLException e) {
+            try{
+                AuditService.getInstance().logAction("ADRESA","Eroare la cautare de adresa");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
         }
         return null;
@@ -82,8 +114,18 @@ public class AdresaRepository {
 
         try (Statement stmt = connection.createStatement()) {
             stmt.executeUpdate(insertAdresaSql);
+            try{
+                AuditService.getInstance().logAction("ADRESA","S-a introdus o adresa noua");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             return true;
         } catch (SQLException e) {
+            try{
+                AuditService.getInstance().logAction("ADRESA","Eroare la introducerea unei adrese noi");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
         }
         return false;
@@ -98,6 +140,11 @@ public class AdresaRepository {
         {
             boolean empty = true;
             ResultSet resultSet = stmt.executeQuery(selectSql);
+            try{
+                AuditService.getInstance().logAction("ADRESA","S-au afisat toate adresele");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             while (resultSet.next())
             {
                 empty = false;
@@ -113,6 +160,11 @@ public class AdresaRepository {
         }
         catch (SQLException e)
         {
+            try{
+                AuditService.getInstance().logAction("ADRESA","Eroare la afisarea adreselor");
+            }catch (IOException ioE){
+                ioE.printStackTrace();
+            }
             e.printStackTrace();
         }
     }
