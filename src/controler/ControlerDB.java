@@ -105,7 +105,7 @@ public class  ControlerDB {
     }
     public  Editura adaugaEditura(){
         Scanner reader= new Scanner(System.in);
-        int idEditura= edituraRepository.getMaxId();
+        int idEditura= edituraRepository.getMaxId()+1;
 
         System.out.println("Numele editurii este: ");
         String edituraNume= reader.nextLine().toUpperCase();
@@ -120,7 +120,7 @@ public class  ControlerDB {
 
         Scanner reader= new Scanner(System.in);
 
-        int idCategorie = categorieRepository.getMaxId();
+        int idCategorie = categorieRepository.getMaxId()+1;
 
         System.out.println("Numele categoriei este: ");
         String categorieNume= reader.nextLine().toUpperCase();
@@ -134,7 +134,7 @@ public class  ControlerDB {
     public  void adaugaCarte() {
         Scanner reader= new Scanner(System.in);
 
-        int idCarte = carteRepository.getMaxId();
+        int idCarte = carteRepository.getMaxId()+1;
 
         System.out.println("Numele cartii este: ");
         String carteNume= reader.nextLine().toUpperCase();
@@ -205,7 +205,7 @@ public class  ControlerDB {
 
         Scanner reader= new Scanner(System.in);
 
-        int idCititor = cititorRepository.getMaxId();
+        int idCititor = cititorRepository.getMaxId()+1;
 
 
         System.out.println("Numele cititorului este: ");

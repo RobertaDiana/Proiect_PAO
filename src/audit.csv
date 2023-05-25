@@ -1,8 +1,27 @@
-ABONAMENT,S-a creat tabela abonament,2023-05-21 15:44:00
-ADRESA,S-a creat tabela Adresa,2023-05-21 15:44:00
-AUTOR,S-a creat tabela autor,2023-05-21 15:44:00
-EDITURA,S-a creat tabela Editura,2023-05-21 15:44:00
-CATEGORIE,S-a creat tabela categorie,2023-05-21 15:44:00
-CARTE,S-a creat tabela Carte,2023-05-21 15:44:00
-CITITOR,S-a creat tabela Cititor,2023-05-21 15:44:00
-EDITURA,Afisarea tuturor editurilor,2023-05-21 15:44:08
+ABONAMENT,S-a creat tabela abonament,2023-05-25 16:14:33
+ADRESA,S-a creat tabela Adresa,2023-05-25 16:14:33
+AUTOR,S-a creat tabela autor,2023-05-25 16:14:33
+EDITURA,S-a creat tabela Editura,2023-05-25 16:14:33
+CATEGORIE,S-a creat tabela categorie,2023-05-25 16:14:33
+CARTE,S-a creat tabela Carte,2023-05-25 16:14:33
+CITITOR,S-a creat tabela Cititor,2023-05-25 16:14:33
+CARTE,S-a gasit id-ul maxim,2023-05-25 16:14:39
+AUTOR,S-a gasit autorul cu numele respectiv,2023-05-25 16:14:48
+CATEGORIE,S-a gasit categoria dupa numele respectiv,2023-05-25 16:15:26
+CARTE,S-a gasit id-ul maxim,2023-05-25 16:15:26
+CATEGORIE,S-a adaugat o categorie,2023-05-25 16:15:26
+CATEGORIE,S-a gasit categoria dupa numele respectiv,2023-05-25 16:15:26
+CARTE,S-a gasit id-ul maxim,2023-05-25 16:15:26
+CATEGORIE,Eroare la adaugarea unei categorii,2023-05-25 16:15:26
+EDITURA,S-a gasit editura cu numele respectiv,2023-05-25 16:17:23
+EDITURA,S-a gasit id-ul maxim din tabela Editura,2023-05-25 16:17:23
+EDITURA,S-a adaugat o editura,2023-05-25 16:17:23
+CARTE,S-a introdus o noua carte,2023-05-25 16:17:23
+CARTE,S-au afisat toate cartile,2023-05-25 16:17:38
+AUTOR,S-a returnat o lista cu autori,2023-05-25 16:17:38
+CATEGORIE,S-a returnat o lista cu categorii,2023-05-25 16:17:38
+EDITURA,S-a gasit editura cu id-ul1,2023-05-25 16:17:38
+CATEGORIE,S-a returnat o lista cu categorii,2023-05-25 16:17:38
+EDITURA,S-a gasit editura cu id-ul1,2023-05-25 16:17:38
+CATEGORIE,S-a returnat o lista cu categorii,2023-05-25 16:17:38
+EDITURA,S-a gasit editura cu id-ul6,2023-05-25 16:17:38
